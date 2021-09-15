@@ -28,10 +28,10 @@
               <th class="col-2">OPERATIONS</th>
             </tr>
             <tr th:each="ob:${allSpec}">
-              <td th:text="${ob.getId}"></td>
-              <td th:text="${ob.getSpecCode}"></td>
-              <td th:text="${ob.getSpecName}"></td>
-              <td th:text="${ob.getSpecNote}"></td>
+              <td th:text="${ob.id}"></td>
+              <td th:text="${ob.specCode}"></td>
+              <td th:text="${ob.specName}"></td>
+              <td th:text="${ob.specNote}"></td>
               <td>
                 <a
                   class="btn btn-danger btn-sm"
