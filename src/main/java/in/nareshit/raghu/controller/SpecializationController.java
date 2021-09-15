@@ -67,5 +67,24 @@ public class SpecializationController {
 		return "redirect:all";
 	}
 	
+	@GetMapping("/edit")
+	public String showEditPage(@RequestParam Long id, 
+			Model model) {
+		Specialization specialization = service.getOneSpecialization(id);
+		model.addAttribute("specialization", specialization);
+		
+		return "SpecializationEdit.html";
+	}
+	
+	@PostMapping("/update")
+	public String updateDate(@ModelAttribute Specialization specialization,
+			RedirectAttributes attributes) {
+		
+		String message = service.updateSpecialization(specialization);
+		attributes.addAttribute("message", message);
+		
+		return "redirect:all";
+	}
+	
 	
 }

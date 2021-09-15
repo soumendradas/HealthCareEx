@@ -44,13 +44,16 @@ public class SpecializationServiceImpl implements ISpecializationService {
 	}
 
 	@Override
-	public void updateSpecialization(Specialization spec) {
+	public String updateSpecialization(Specialization spec) {
 		
 		//first check id is valid or not
 		Optional<Specialization> tempSpec = repo.findById(spec.getId());
 		if(tempSpec.isPresent()) {
 			repo.save(spec);
+			return "Record ("+spec.getId()+") is updated";
 		}
+		
+		return spec.getId()+" is invalidate";
 
 	}
 

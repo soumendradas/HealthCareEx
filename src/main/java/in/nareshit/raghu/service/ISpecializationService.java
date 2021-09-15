@@ -10,6 +10,6 @@ public interface ISpecializationService {
 	public List<Specialization> getAllSpecializations();
 	public void removeSpecialization(Long id);
 	public Specialization getOneSpecialization(Long id);
-	public void updateSpecialization(Specialization spec);
+	public String updateSpecialization(Specialization spec);
 
 }
