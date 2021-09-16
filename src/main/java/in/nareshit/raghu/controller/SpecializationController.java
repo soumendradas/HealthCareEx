@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Specialization;
@@ -84,6 +85,31 @@ public class SpecializationController {
 		attributes.addAttribute("message", message);
 		
 		return "redirect:all";
+	}
+	
+	@GetMapping("/checkCode")
+	@ResponseBody
+	public String validateSpecCode(@RequestParam String code) {
+		
+		String message = "";
+		
+		if(service.isSpecCodeExist(code)) {
+			message = code + ", already exist";
+		}
+		
+		return message;
+	}
+	
+	@GetMapping("/checkName")
+	@ResponseBody
+	public String validateSpecName(@RequestParam String name) {
+		
+		String message = "";
+		if(service.isSpecNameExist(name)) {
+			message = name +", already exist";
+		}
+		
+		return message;
 	}
 	
 	

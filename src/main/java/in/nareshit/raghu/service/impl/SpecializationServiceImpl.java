@@ -53,8 +53,21 @@ public class SpecializationServiceImpl implements ISpecializationService {
 			return "Record ("+spec.getId()+") is updated";
 		}
 		
+		
 		return spec.getId()+" is invalidate";
 
+	}
+	
+	@Override
+	public boolean isSpecCodeExist(String specCode) {
+		// TODO Auto-generated method stub
+		return repo.getSpecCodeCount(specCode) > 0;
+	}
+	
+	@Override
+	public boolean isSpecNameExist(String specName) {
+		// TODO Auto-generated method stub
+		return repo.getSpecNameCount(specName) > 0;
 	}
 
 }

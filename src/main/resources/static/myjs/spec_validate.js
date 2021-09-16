@@ -25,8 +25,21 @@ $(document).ready(function() {
 			$("#specCodeError").css("color", "red");
 			specCodeError = false;
 		} else {
-			$("#specCodeError").hide();
-			specCodeError = true;
+			$.ajax({
+				url: "checkCode",
+				data:{"code": val},
+				success: function (response) {
+					if(response != ""){
+						$("#specCodeError").show();
+						$("#specCodeError").html(response);
+						$("#specCodeError").css("color", "red");
+						specCodeError = false;
+					}else{
+						$("#specCodeError").hide();
+						specCodeError = true;
+					}
+				}
+			});
 		}
 
 		return specCodeError;
@@ -46,8 +59,21 @@ $(document).ready(function() {
 			$("#specNameError").css("color", "red");
 			specNameError = false;
 		} else {
-			$("#specNameError").hide();
-			specNameError = true;
+			$.ajax({
+				url :"checkName",
+				data : {"name": val},
+				success: function(response){
+					if(response != null){
+						$("#specNameError").show();
+						$("#specNameError").html(response);
+						$("#specNameError").css("color", "red");
+						specNameError = false;
+					}else{
+						$("#specNameError").hide();
+						specNameError = true;
+					}
+				}
+			});
 		}
 
 		return specNameError;
