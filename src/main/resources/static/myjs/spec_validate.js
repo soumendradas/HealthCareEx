@@ -7,7 +7,7 @@ $(document).ready(function() {
 	//2. define error variable
 	var specCodeError = false;
 	var specNameError = false;
-	var specCodeError = false;
+	var specNoteError = false;
 
 	//3. validate function
 	function validate_specCode() {
@@ -63,7 +63,7 @@ $(document).ready(function() {
 				url :"checkName",
 				data : {"name": val},
 				success: function(response){
-					if(response != null){
+					if(response != ""){
 						$("#specNameError").show();
 						$("#specNameError").html(response);
 						$("#specNameError").css("color", "red");
@@ -122,9 +122,10 @@ $(document).ready(function() {
 		validate_specName();
 		validate_specNote();
 
-		if (specCodeError && specNameError && specNoteError) {
+		if (specNoteError && specCodeError && specNameError) {
 			return true;
 		} else return false;
+		// return true;
 	});
 
 });

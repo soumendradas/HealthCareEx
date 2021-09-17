@@ -25,7 +25,7 @@
           <h3>Specialization Register</h3>
         </div>
         <div class="card-body">
-          <form th:action="@{/spec/save}" method="POST" id="specForm">
+          <form action="/spec/save" method="POST" id="specForm">
             <!-- row-1 -->
             <div class="row">
               <div class="col-2">
@@ -80,7 +80,8 @@
             </div>
 
             <button class="btn btn-primary" type="submit">
-              Create <i class="fa fa-plus-square" aria-hidden="true"></i>
+              Create
+              <!-- Create <i class="fa fa-plus-square" aria-hidden="true"></i> -->
             </button>
           </form>
         </div>
