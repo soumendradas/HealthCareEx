@@ -25,9 +25,14 @@ $(document).ready(function() {
 			$("#specCodeError").css("color", "red");
 			specCodeError = false;
 		} else {
+			var id = 0;
+			if($("#id").val() != undefined){
+				id = $("#id").val();
+				specCodeError = true;
+			}
 			$.ajax({
 				url: "checkCode",
-				data:{"code": val},
+				data:{"code": val, "id": id},
 				success: function (response) {
 					if(response != ""){
 						$("#specCodeError").show();
@@ -59,9 +64,14 @@ $(document).ready(function() {
 			$("#specNameError").css("color", "red");
 			specNameError = false;
 		} else {
+			var id = 0;
+			if($("#id").val() != undefined){
+				id = $("#id").val();
+				specNameError = true;
+			}
 			$.ajax({
 				url :"checkName",
-				data : {"name": val},
+				data : {"name": val, "id": id},
 				success: function(response){
 					if(response != ""){
 						$("#specNameError").show();

@@ -143,11 +143,12 @@ public class SpecializationController {
 
 	@GetMapping("/checkCode")
 	@ResponseBody
-	public String validateSpecCode(@RequestParam String code) {
+	public String validateSpecCode(@RequestParam String code, 
+			@RequestParam Long id) {
 
 		String message = "";
 
-		if (service.isSpecCodeExist(code)) {
+		if (service.isSpecCodeExist(code, id)) {
 			message = code + ", already exist";
 		}
 
@@ -162,17 +163,21 @@ public class SpecializationController {
 
 	@GetMapping("/checkName")
 	@ResponseBody
-	public String validateSpecName(@RequestParam String name) {
+	public String validateSpecName(@RequestParam String name,
+			@RequestParam Long id) {
 
 		String message = "";
-		if (service.isSpecNameExist(name)) {
+		if (service.isSpecNameExist(name, id)) {
 			message = name + ", already exist";
 		}
 
 		return message;
 	}
 	
-	
+	/**
+	 * 9. Excel Export
+	 * @return
+	 */
 	@GetMapping("/excel")
 	public ModelAndView exportToExcel() {
 		

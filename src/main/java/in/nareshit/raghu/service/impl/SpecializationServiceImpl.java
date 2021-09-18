@@ -58,14 +58,20 @@ public class SpecializationServiceImpl implements ISpecializationService {
 	}
 	
 	@Override
-	public boolean isSpecCodeExist(String specCode) {
-		// TODO Auto-generated method stub
+	public boolean isSpecCodeExist(String specCode, Long id) {
+		
+		if(id != 0) {
+			return repo.getSpecCodeCountForEdit(specCode, id) > 0;
+		}
 		return repo.getSpecCodeCount(specCode) > 0;
 	}
 	
 	@Override
-	public boolean isSpecNameExist(String specName) {
-		// TODO Auto-generated method stub
+	public boolean isSpecNameExist(String specName, Long id) {
+		
+		if(id != 0) {
+			return repo.getSpecNameCountForEdit(specName, id) > 0;
+		}
 		return repo.getSpecNameCount(specName) > 0;
 	}
 
