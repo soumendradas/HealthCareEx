@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.exception.SpecializationNotFoundException;
 import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.view.SpecializationExcelView;
 
 @Controller
 @RequestMapping("/spec")
@@ -32,6 +34,13 @@ public class SpecializationController {
 		model.addAttribute("message", message);
 		return "SpecializationRegister";
 	}
+	
+	/**
+	 * 2. save specialization data
+	 * @param specialization
+	 * @param attributes
+	 * @return
+	 */
 
 	@PostMapping("/save")
 	public String saveForm(@ModelAttribute Specialization specialization, RedirectAttributes attributes) {
@@ -42,6 +51,13 @@ public class SpecializationController {
 
 		return "redirect:register";
 	}
+	
+	/**
+	 * 3. view all specialization data
+	 * @param model
+	 * @param message
+	 * @return
+	 */
 
 	@GetMapping("/all")
 	public String viewAll(Model model, @RequestParam(value = "message", required = false) String message) {
@@ -50,6 +66,13 @@ public class SpecializationController {
 		model.addAttribute("message", message);
 		return "SpecializationData.html";
 	}
+	
+	/**
+	 * 4. Delete one specialization data
+	 * @param id
+	 * @param attributes
+	 * @return
+	 */
 
 	@GetMapping("/delete")
 	public String deleteData(@RequestParam Long id, RedirectAttributes attributes) {
@@ -64,6 +87,14 @@ public class SpecializationController {
 
 		return "redirect:all";
 	}
+	
+	/**
+	 * 5. show edit page
+	 * @param id
+	 * @param model
+	 * @param attributes
+	 * @return
+	 */
 
 	@GetMapping("/edit")
 	public String showEditPage(@RequestParam Long id,
@@ -83,6 +114,13 @@ public class SpecializationController {
 
 		return page;
 	}
+	
+	/**
+	 * 6. update specialization data
+	 * @param specialization
+	 * @param attributes
+	 * @return
+	 */
 
 	@PostMapping("/update")
 	public String updateDate(@ModelAttribute Specialization specialization, RedirectAttributes attributes) {
@@ -96,6 +134,12 @@ public class SpecializationController {
 
 		return "redirect:all";
 	}
+	
+	/**
+	 * 7. check code if exist
+	 * @param code
+	 * @return
+	 */
 
 	@GetMapping("/checkCode")
 	@ResponseBody
@@ -109,6 +153,12 @@ public class SpecializationController {
 
 		return message;
 	}
+	
+	/**
+	 * 8. check name if exist
+	 * @param name
+	 * @return
+	 */
 
 	@GetMapping("/checkName")
 	@ResponseBody
@@ -120,6 +170,18 @@ public class SpecializationController {
 		}
 
 		return message;
+	}
+	
+	
+	@GetMapping("/excel")
+	public ModelAndView exportToExcel() {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setView(new SpecializationExcelView());
+		List<Specialization> list = service.getAllSpecializations();
+		mv.addObject("list", list);
+		
+		return mv;
 	}
 
 }
