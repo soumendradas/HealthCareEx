@@ -39,7 +39,11 @@
               <div class="col-9">
                 <div class="card-body">
                   <div class="row">
-                    <h5><span th:text="${ob.firstName}"> </span>&nbsp;<span th:text="${ob.lastName}"></span></h5>
+                    <!-- <h4><span th:text="${ob.firstName}"> </span>&nbsp;<span th:text="${ob.lastName}"></span></h4> -->
+                    <h4>[[${ob.firstName+ ' ' +ob.lastName}]]</h4>
+                  </div>
+                  <div class="row">
+                    <h5>[[${ob.specialization.specName}]]</h5>
                   </div>
                   <div class="row">
                     Mobile: <span th:text="${ob.mobile}"></span>| Email:

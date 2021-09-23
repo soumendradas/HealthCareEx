@@ -1,7 +1,7 @@
 package in.nareshit.raghu.service.impl;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.exception.SpecializationNotFoundException;
 import in.nareshit.raghu.repository.SpecializationRepository;
 import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.util.MyCollectionsUtil;
 
 @Service
 public class SpecializationServiceImpl implements ISpecializationService {
@@ -73,6 +74,15 @@ public class SpecializationServiceImpl implements ISpecializationService {
 			return repo.getSpecNameCountForEdit(specName, id) > 0;
 		}
 		return repo.getSpecNameCount(specName) > 0;
+	}
+	
+	
+	@Override
+	public Map<Long, String> getSpecIdAndName() {
+		List<Object[]> list = repo.getSpecIdAndName();
+		Map<Long, String> specializations = MyCollectionsUtil.convertToMap(list);
+		
+		return specializations;
 	}
 
 }

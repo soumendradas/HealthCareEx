@@ -61,6 +61,22 @@
               </div>
             </div>
 
+            <!-- row-for specializtions -->
+            <div class="row">
+              <div class="col-2">
+                <label for="specialization">Specialization</label>
+              </div>
+              <div class="col-4">
+                <select class="form-control" name="specialization.id" id="specialization">
+                  <option value="">-SELECT-</option>
+                  <option th:each="ob: ${specializations}" th:value="${ob.key}" th:text="${ob.value}"></option>
+                </select>
+              </div>
+              <div class="col-6">
+                <span id="specializationError"></span>
+              </div>
+            </div>
+
             <!-- row-3 -->
             <div class="row">
               <div class="col-2">

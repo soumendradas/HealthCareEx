@@ -7,6 +7,7 @@ $(document).ready(function () {
   $("#genderError").hide();
   $("#noteError").hide();
   $("#photoError").hide();
+  $("#specializationError").hide();
 
   var firstNameError = false;
   var lastNameError = false;
@@ -15,6 +16,7 @@ $(document).ready(function () {
   var mobileError = false;
   var genderError = false;
   var noteError = false;
+  var specializationError = false;
 
   function validate_firstName() {
     var val = $("#firstName").val();
@@ -192,6 +194,21 @@ $(document).ready(function () {
 
     return noteError;
   }
+
+  function validate_specialization(){
+    var val = $("#specialization").val();
+
+    if(val == ""){
+      $("#specializationError").show();
+      $("#specializationError").html("please select <b>Specialization </b>");
+      $("#specializationError").css("color", "red");
+      specializationError = false;
+    }else{
+      $("#specializationError").hide();
+      specializationError = true;
+    }
+    return specializationError;
+  }
   
   $("#firstName").keyup(function () {
     validate_firstName();
@@ -221,6 +238,10 @@ $(document).ready(function () {
     validate_note();
   });
 
+  $("#specialization").click(function () {
+    validate_specialization()
+  })
+
   $("#doc_form").submit(function () {
     validate_firstName();
     validate_lastName();
@@ -229,6 +250,7 @@ $(document).ready(function () {
     validate_mobile();
     validate_gender();
     validate_note();
+    validate_specialization();
     if (
       firstNameError &&
       lastNameError &&
@@ -236,7 +258,8 @@ $(document).ready(function () {
       addressError &&
       mobileError &&
       genderError &&
-      noteError
+      noteError &&
+      specializationError
     ) {
       return true;
     } else return false;
