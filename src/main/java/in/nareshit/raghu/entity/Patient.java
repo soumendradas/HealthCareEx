@@ -31,8 +31,8 @@ public class Patient {
 	@Column(name = "pat_gen_col")
 	public String gender;
 	
-	@Column(name = "pat_ph_col")
-	public String phone;
+	@Column(name = "pat_mob_col")
+	public String mobile;
 	
 	@Column(name = "pat_dob_col")
 	public String dob;
@@ -40,11 +40,11 @@ public class Patient {
 	@Column(name = "pat_ms_col")
 	public String martialStatus;
 	
-	@Column(name = "pat_paddr_col")
+	@Column(name = "pat_pres_addr_col")
 	public String presentAddress;
 	
-	@Column(name = "pat_commaddr_col")
-	public String commAddress;
+	@Column(name = "pat_comm_addr_col")
+	public String communicationAddress;
 	
 	@Column(name = "pat_oth_col")
 	public String otherDetails;

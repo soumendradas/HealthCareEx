@@ -95,6 +95,20 @@
               </div>
             </div>
 
+            <!-- row for image -->
+            <div class="row">
+              <div class="col-2">
+                <label for="image">Image</label>
+              </div>
+              <div class="col-4">
+                <input type="file" name="image" id="image" onchange="upload()"> 
+                <input hidden="true" name="photoLoc" id="photoLoc">
+              </div>
+              <div class="col-6">
+                <span id="photoError"></span>
+              </div>
+              </div>
+
             <!-- row-4 -->
             <div class="row">
               <div class="col-2">
@@ -160,19 +174,7 @@
               </div>
             </div>
 
-            <!-- row-8 -->
-            <!-- <div class="row">
-              <div class="col-2">
-                <label for="image">Image</label>
-              </div>
-              <div class="col-4">
-                <input type="file" name="image" id="image" onchange="openImage(event)"> 
-                <input hidden="true" name="photo" id="photo">
-              </div>
-              <div class="col-6">
-                <span id="photoError"></span>
-              </div>
-            </div> -->
+            
 
             <button class="btn btn-primary" type="submit">
               Create <i class="fa fa-plus-square" aria-hidden="true"></i>
@@ -185,8 +187,7 @@
       </div>
     </div>
 
-    <script th:src="@{/myjs/doc_validate.js}"></script
-      
-    </script>
+    <script th:src="@{/myjs/doc_validate.js}"></script>
+    <script th:src="@{/myjs/upload_file_ob.js}"></script>
   </body>
 </html>

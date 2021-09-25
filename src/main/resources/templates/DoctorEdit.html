@@ -82,7 +82,7 @@
                 <label for="specialization">Specialization</label>
               </div>
               <div class="col-4">
-                <select class="form-control" name="specialization.id" th:field="*{specialization}">
+                <select class="form-control" th:field="*{specialization}">
                   <option value="">-SELECT-</option>
                   <option th:each="ob: ${specializations}" th:value="${ob.key}" th:text="${ob.value}"></option>
                 </select>
