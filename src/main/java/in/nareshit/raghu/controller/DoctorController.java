@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Doctor;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.view.DoctorExcelView;
 
 @Controller
 @RequestMapping("doctor")
@@ -134,6 +136,16 @@ public class DoctorController {
 			message = "<b>"+mobile+"</b> is exist";
 		}
 		return message;
+	}
+	
+	@GetMapping("/excel")
+	public ModelAndView exportToExcel() {
+		ModelAndView mv = new ModelAndView();
+		mv.setView(new DoctorExcelView());
+		List<Doctor> doctors = service.getAllDoctors();
+		mv.addObject("doctors", doctors);
+		
+		return mv;
 	}
 	
 
