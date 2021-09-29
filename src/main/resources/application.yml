@@ -11,4 +11,14 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+  
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fordev79@gmail.com
+    password: Hell0!@#
+    properties:      mail:
+        smtp:
+          starttls:
+            enable: true
