@@ -1,11 +1,20 @@
 package in.nareshit.raghu.entity;
 
+import java.time.LocalDate;
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,33 +29,45 @@ public class Patient {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long id;
+	private Long id;
 	
 	@Column(name = "pat_fn_col")
-	public String firstName;
+	private String firstName;
 	
 	@Column(name = "pat_ln_col")
-	public String lastName;
+	private String lastName;
 	
 	@Column(name = "pat_gen_col")
-	public String gender;
+	private String gender;
 	
 	@Column(name = "pat_mob_col")
-	public String mobile;
+	private String mobile;
 	
 	@Column(name = "pat_dob_col")
-	public String dob;
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate dateOfBirth;
 	
 	@Column(name = "pat_ms_col")
-	public String martialStatus;
+	private String martialStatus;
 	
-	@Column(name = "pat_pres_addr_col")
-	public String presentAddress;
+	@Column(name = "pat_paddr_col")
+	private String presentAddress;
 	
-	@Column(name = "pat_comm_addr_col")
-	public String communicationAddress;
+	@Column(name = "pat_caddr_col")
+	private String communicationAddress;
 	
-	@Column(name = "pat_oth_col")
-	public String otherDetails;
+	@ElementCollection
+	@CollectionTable(
+			name = "pat_medi_hist_tab",
+			joinColumns = @JoinColumn(name="pat_medi_hst_id_fk_col"))
+	@Column(name = "pat_medi_hist_col")
+	private Set<String> mediHistory;
+	
+	@Column(name = "pat_medi_hist_other")
+	private String ifOther;
+	
+	@Column(name = "pat_note_col")
+	private String note;
+	
 
 }
