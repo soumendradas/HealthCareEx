@@ -120,7 +120,7 @@ public class DoctorController {
 		return "redirect:all";
 	}
 
-	// -------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
 	@GetMapping("checkEmail")
 	@ResponseBody
 	public String validateEmail(@RequestParam("email") String email, @RequestParam("id") Long id) {

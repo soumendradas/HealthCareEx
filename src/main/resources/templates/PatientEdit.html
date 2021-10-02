@@ -21,10 +21,28 @@
     <div class="container">
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
-          <h3>Patient Register</h3>
+          <h3>Patient Update</h3>
         </div>
         <div class="card-body">
-          <form th:action="@{/patient/save}" method="POST" id="pat_form">
+          <form th:action="@{/patient/update}" method="POST" id="pat_form" th:object="${patient}">
+
+            <!-- row for id -->
+            <div class="row">
+                <div class="col-2">
+                  <label for="firstName">ID</label>
+                </div>
+                <div class="col-4">
+                  <input
+                    class="form-control"
+                    type="text"
+                    th:field="*{id}"
+                    readonly
+                  />
+                </div>
+                <div class="col-6">
+                  <span id="idError"></span>
+                </div>
+              </div>
             <!-- row-1 -->
             <div class="row">
               <div class="col-2">
@@ -34,8 +52,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  name="firstName"
-                  id="firstName"
+                  th:field="*{firstName}"
                 />
               </div>
               <div class="col-6">
@@ -53,8 +70,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  name="lastName"
-                  id="lastName"
+                  th:field="*{lastName}"
                 />
               </div>
               <div class="col-6">
@@ -69,7 +85,7 @@
                 <label for="gender">Gender</label>
               </div>
               <div class="col-4">
-                <select class="form-control" name="gender" id="gender">
+                <select class="form-control" th:field="*{gender}" >
                   <option value="">-SELECT-</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -91,8 +107,7 @@
                 <input
                   class="form-control"
                   type="text"
-                  name="mobile"
-                  id="mobile"
+                  th:field="*{mobile}"
                 />
               </div>
               <div class="col-6">
@@ -109,8 +124,7 @@
                 <input
                   class="form-control"
                   type="date"
-                  name="dateOfBirth"
-                  id="dateOfBirth"
+                  th:field="*{dateOfBirth}"
                 />
               </div>
               <div class="col-6">
@@ -129,7 +143,7 @@
                   <div class="col-6">
                     <input
                       type="radio"
-                      name="martialStatus"
+                      th:field="*{martialStatus}"
                       id="martialStatus1"
                       value="unmarried"
                     />
@@ -138,7 +152,7 @@
                   <div class="col-6">
                     <input
                       type="radio"
-                      name="martialStatus"
+                      th:field="*{martialStatus}"
                       id="martialStatus2"
                       value="married"
                     />
@@ -149,7 +163,7 @@
                   <div class="col-6">
                     <input
                       type="radio"
-                      name="martialStatus"
+                      th:field="*{martialStatus}"
                       id="martialStatus3"
                       value="divorced"
                     />
@@ -159,7 +173,7 @@
                   <div class="col-6">
                     <input
                       type="radio"
-                      name="martialStatus"
+                      th:field="*{martialStatus}"
                       id="martialStatus4"
                       value="separated"
                     />
@@ -181,8 +195,7 @@
               <div class="col-4">
                 <textarea
                   class="form-control"
-                  name="presentAddress"
-                  id="presentAddress"
+                  th:field="*{presentAddress}"
                 ></textarea>
               </div>
               <div class="col-6">
@@ -199,8 +212,7 @@
               <div class="col-4">
                 <textarea
                   class="form-control"
-                  name="communicationAddress"
-                  id="communicationAddress"
+                  th:field="*{communicationAddress}"
                 ></textarea>
               </div>
               <div class="col-6">
@@ -220,7 +232,7 @@
                   <div class="col">
                     <input
                       type="checkbox"
-                      name="mediHistory"
+                      th:field="*{mediHistory}"
                       id="mediHistory1"
                       value="Cancer"
                     />
@@ -228,7 +240,7 @@
 
                     <input
                       type="checkbox"
-                      name="mediHistory"
+                      th:field="*{mediHistory}"
                       id="mediHistory2"
                       value="Diabetes"
                     />
@@ -236,7 +248,7 @@
 
                     <input
                       type="checkbox"
-                      name="mediHistory"
+                      th:field="*{mediHistory}"
                       id="mediHistory3"
                       value="Fever"
                     />
@@ -244,7 +256,7 @@
 
                     <input
                       type="checkbox"
-                      name="mediHistory"
+                      th:field="*{mediHistory}"
                       id="mediHistory4"
                       value="Bp"
                     />
@@ -254,7 +266,7 @@
 
                 <input
                   type="checkbox"
-                  name="mediHistory"
+                  th:field="*{mediHistory}"
                   id="mediHistory5"
                   value="pneumonia"
                 />
@@ -262,7 +274,7 @@
 
                 <input
                   type="checkbox"
-                  name="mediHistory"
+                  th:field="*{mediHistory}"
                   id="mediHistory6"
                   value="HeartStroke"
                 />
@@ -271,7 +283,7 @@
                   <div class="col-3">
                     <input
                       type="checkbox"
-                      name="mediHistory"
+                      th:field="*{mediHistory}"
                       id="mediHistory7"
                       value="other"
                     />
@@ -281,8 +293,7 @@
                     <input
                       class="form-control"
                       type="text"
-                      name="ifOther"
-                      id="ifOther"
+                      th:field="*{ifOther}"
                     />
                   </div>
                 </div>
@@ -300,8 +311,7 @@
                 <textarea
                   class="form-control"
                   type="text"
-                  name="note"
-                  id="note"
+                  th:field="*{note}"
                 ></textarea>
               </div>
               <div class="col-6">
@@ -310,29 +320,12 @@
             </div>
 
             <button class="btn btn-primary" type="submit">
-              Create <i class="fa fa-plus-square" aria-hidden="true"></i>
+              Update <i class="fa fa-plus-square" aria-hidden="true"></i>
             </button>
           </form>
-        </div>
-        <div class="card-footer bg-info text-white" th:if="${message != null}">
-          <span th:text="${message}"></span>
         </div>
       </div>
     </div>
 
-    <script>
-      $(document).ready(function () {
-        $("#firstNameError").hide();
-        $("#lastNameError").hide();
-        $("#genderError").hide();
-        $("#mobileError").hide();
-        $("#dateOfBirthError").hide();
-        $("#martialStatusError").hide();
-        $("#presentAddressError").hide();
-        $("#communicationAddressError").hide();
-        $("#mediHistoryError").hide();
-        $("#noteError").hide();
-      });
-    </script>
   </body>
 </html>
