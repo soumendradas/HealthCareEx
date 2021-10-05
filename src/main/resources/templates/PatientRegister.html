@@ -189,7 +189,7 @@
                 <span id="presentAddressError"></span>
               </div>
             </div>
-
+If Present and communication address are same <input type="checkbox" id="address">
             <!-- row-8 -->
 
             <div class="row">
@@ -320,55 +320,6 @@
       </div>
     </div>
 
-    <script>
-      $(document).ready(function () {
-        $("#firstNameError").hide();
-        $("#lastNameError").hide();
-        $("#genderError").hide();
-        $("#mobileError").hide();
-        $("#dateOfBirthError").hide();
-        $("#martialStatusError").hide();
-        $("#presentAddressError").hide();
-        $("#communicationAddressError").hide();
-        $("#mediHistoryError").hide();
-        $("#noteError").hide();
-
-        var firstNameError = false;
-        var lastNameError = false;
-        var genderError = false;
-        var mobileError = false;
-        var dateOfBirthError = false;
-        var martialStatusError = false;
-        var presentAddressError = false;
-        var communicationAddressError = false;
-        var mediHistoryError = false;
-        var noteError = false;
-
-        function firstName_validation(){
-          var val = $("#firstName").val();
-          var exp = /^[A-Za-z\s]{1,25}$/;
-
-          if(val ==""){
-            $("#firstNameError").show();
-            $("#firstNameError").html("<b>First Name</b> not to be empty");
-            $("#firstNameError").css("color", "red");
-            firstNameError = false;
-          }else if(exp.test(val)){
-            $("#firstNameError").show();
-            $("#firstNameError").html("<b>First Name</b> must be alphabet only and 1 to 25 chars");
-            $("#firstNameError").css("color", "red");
-            firstNameError = false;
-          }else{
-            $("#firstNameError").hide();
-            firstNameError = true;
-
-          }
-
-          return firstNameError;
-        }
-
-        
-      });
-    </script>
+    <script th:src="@{/myjs/pat_validate.js}"></script>
   </body>
 </html>

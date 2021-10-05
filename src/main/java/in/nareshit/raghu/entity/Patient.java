@@ -31,29 +31,29 @@ public class Patient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "pat_fn_col")
+	@Column(name = "pat_fn_col", nullable = false)
 	private String firstName;
 	
-	@Column(name = "pat_ln_col")
+	@Column(name = "pat_ln_col", nullable = false)
 	private String lastName;
 	
-	@Column(name = "pat_gen_col")
+	@Column(name = "pat_gen_col", nullable = false)
 	private String gender;
 	
-	@Column(name = "pat_mob_col")
+	@Column(name = "pat_mob_col", nullable = false)
 	private String mobile;
 	
 	@Column(name = "pat_dob_col")
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dateOfBirth;
 	
-	@Column(name = "pat_ms_col")
+	@Column(name = "pat_ms_col", nullable = false)
 	private String martialStatus;
 	
-	@Column(name = "pat_paddr_col")
+	@Column(name = "pat_paddr_col", nullable = false)
 	private String presentAddress;
 	
-	@Column(name = "pat_caddr_col")
+	@Column(name = "pat_caddr_col", nullable = false)
 	private String communicationAddress;
 	
 	@ElementCollection
