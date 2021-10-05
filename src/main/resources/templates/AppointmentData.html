@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Data</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+    />
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>Appointment Data</h3>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-hover">
+                    <tr class="bg-secondary text-white">
+                        <th class="col-1">ID</th>
+                        <th class="col-2">Doctor Name</th>
+                        <th class="col-1">Specialization</th>
+                        <th class="col-1">Date</th>
+                        <th class="col-1">Slots</th>
+                        <th class="col-1">Fee</th>
+                        <th class="col-3">Details</th>
+                        <th class="col-2">Operations</th>
+                    </tr>
+
+                    <tr th:each="ob:${appointments}">
+                        <td>[[${ob.id}]]</td>
+                        <td>[[${ob.doctor.firstName+ ' '+ ob.doctor.lastName}]]</td>
+                        <td>[[${ob.doctor.specialization.specName}]]</td>
+                        <td>[[${ob.date}]]</td>
+                        <td>[[${ob.noOfSlots}]]</td>
+                        <td>[[${ob.fee}]]</td>
+                        <td>[[${ob.details}]]</td>
+                        <td>
+                            <a class="btn btn-danger btn-sm text-white" 
+                            th:href="@{/appointment/delete(id=${ob.id})}">Delete 
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+
+                        <a class="btn btn-primary btn-sm text-white"
+                            th:href="@{/appointment/edit(id=${ob.id})}">Edit 
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+
+                        </a>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer bg-info text-white" th:if="${message != null}">
+                <span th:text="${message}"></span>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

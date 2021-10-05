@@ -1,5 +1,7 @@
 package in.nareshit.raghu.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,5 +20,9 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
 	@Query("SELECT COUNT(mobile) from Doctor WHERE mobile = :mobile AND id != :id")
 	Integer getMobileCountForEdit(String mobile, Long id);
+	
+	
+	@Query("SELECT id, firstName, lastName, specialization FROM Doctor")
+	List<Object[]> getDoctorIdNamesAndSpec();
 
 }
