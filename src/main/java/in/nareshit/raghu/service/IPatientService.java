@@ -12,5 +12,7 @@ public interface IPatientService {
 	public Patient getOnePatient(Long id);
 	public void updatePatient(Patient patient);
 	
+	public boolean isEmailExist(Long id, String email);
+	
 
 }

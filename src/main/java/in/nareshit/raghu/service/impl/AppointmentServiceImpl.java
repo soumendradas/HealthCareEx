@@ -1,5 +1,6 @@
 package in.nareshit.raghu.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,12 @@ public class AppointmentServiceImpl implements IAppointmentService {
 			throw new AppointmentNotFoundException("Id is invalid and rejected");
 		}
 
+	}
+	
+	@Override
+	public List<Appointment> getAppointmentByDate(LocalDate date){
+		
+		return repo.findByDate(date);
 	}
 
 }

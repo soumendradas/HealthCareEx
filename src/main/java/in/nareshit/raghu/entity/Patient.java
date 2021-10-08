@@ -43,6 +43,9 @@ public class Patient {
 	@Column(name = "pat_mob_col", nullable = false)
 	private String mobile;
 	
+	@Column(name = "pat_email_col", nullable = false, unique = true)
+	private String email;
+	
 	@Column(name = "pat_dob_col")
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dateOfBirth;

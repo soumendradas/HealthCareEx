@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Patient;
@@ -98,6 +99,18 @@ public class PatientController {
 		}
 		attributes.addAttribute("message", message);
 		return "redirect:all";
+	}
+	
+	@GetMapping("checkEmail")
+	@ResponseBody
+	public String validateEmail(@RequestParam(value = "id") Long id,
+			@RequestParam(value = "email") String email) {
+		String message = "";
+		if(service.isEmailExist(id, email)) {
+			message = "<b>Email</b> is exist";
+		}
+		
+		return message;
 	}
 
 }

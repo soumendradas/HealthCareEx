@@ -9,6 +9,7 @@ $(document).ready(function () {
     $("#communicationAddressError").hide();
     $("#mediHistoryError").hide();
     $("#noteError").hide();
+    $("#emailError").hide();
     $("#ifOther").attr('readonly','true')
 
     var firstNameError = false;
@@ -20,6 +21,7 @@ $(document).ready(function () {
     var presentAddressError = false;
     var communicationAddressError = false;
     var mediHistoryError = false;
+    var emailError = false;
     //var noteError = false;
 //---------------------------------------------------------------------------------------
     function firstName_validation() {
@@ -196,6 +198,45 @@ $(document).ready(function () {
       return mediHistoryError;
     }
 
+    function email_validation(){
+      var val = $("#email").val();
+      var exp =
+      /^[A-Za-z0-9\.\-\_]{1,20}[@][A-Za-z0-9\.]{1,15}[.][A-Za-z]{1,10}$/;
+      if (val == "") {
+        $("#emailError").show();
+        $("#emailError").html("<b>Email</b> not be empty");
+        $("#emailError").css("color", "red");
+        emailError = false;
+      } else if (!exp.test(val)) {
+        $("#emailError").show();
+        $("#emailError").html("please Enter valid <b>Email</b>");
+        $("#emailError").css("color", "red");
+        emailError = false;
+      }else{
+        var id = 0
+        if($("#id").val()!= undefined){
+          id = $("#id").val();
+          emailError = true;
+        }
+        $.ajax({
+          url: "checkEmail",
+          data: {"email":val, "id": id},
+          success: function (response) {
+            if(response != ""){
+              $("#emailError").show();
+              $("#emailError").html(response);
+              $("#emailError").css("color", "red");
+              emailError = false;
+            }else{
+              $("#emailError").hide();
+              emailError = true;
+            }
+          }
+        });
+      }
+      return emailError;
+    }
+
 
 
 
@@ -215,6 +256,10 @@ $(document).ready(function () {
     $("#mobile").keyup(function(){
       mobile_validation();
     });
+
+    $("#email").keyup(function () {
+      email_validation();
+    })
 
     $("input[name='martialStatus']").click(function(){
       martialStatus_validation();
@@ -257,6 +302,7 @@ $(document).ready(function () {
       communicationAddress_validation();
       mediHistory_validation();
       mobile_validation();
+      email_validation();
 
       if(firstNameError&&
         lastNameError&&
@@ -265,7 +311,8 @@ $(document).ready(function () {
         presentAddressError&&
         communicationAddressError&&
         mediHistoryError&&
-        mobileError){
+        mobileError&&
+        emailError){
           return true;
         }else return false;
     });
