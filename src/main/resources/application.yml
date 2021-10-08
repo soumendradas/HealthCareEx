@@ -1,5 +1,10 @@
 server:
   port: 80
+
+master:
+  user:
+    name: fordev
+    email: fordev79@gmail.com
   
 spring:
   datasource:
