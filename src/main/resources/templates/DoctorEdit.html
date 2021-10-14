@@ -18,6 +18,8 @@
         </div>
         <div class="card-body">
           <form th:action="@{/doctor/update}" method="POST" id="doc_form" th:object = "${doctor}">
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <!-- row-0 -->
             <div class="row">
                 <div class="col-2">

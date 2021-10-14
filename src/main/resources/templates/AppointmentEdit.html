@@ -19,6 +19,8 @@
         <div class="card-body">
           <form th:action="@{/appointment/update}" method="POST" id="app_form" th:object="${appointment}">
 
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
             <!-- rowForId -->
 
             <div class="row">

@@ -13,6 +13,7 @@ import in.nareshit.raghu.exception.PatientNotFoundException;
 import in.nareshit.raghu.repository.PatientRepository;
 import in.nareshit.raghu.service.IPatientService;
 import in.nareshit.raghu.service.IUserService;
+import in.nareshit.raghu.util.MyMailUtil;
 import in.nareshit.raghu.util.UserUtil;
 
 @Service
@@ -26,6 +27,9 @@ public class PatientServiceImpl implements IPatientService {
 	
 	@Autowired
 	private UserUtil userUtil;
+	
+	@Autowired
+	private MyMailUtil mailUtil;
 
 	@Override
 	@Transactional
@@ -34,13 +38,28 @@ public class PatientServiceImpl implements IPatientService {
 		Long id = repo.save(patient).getId();
 		
 		if(id != null) {
+			String pwd = userUtil.getPwd();
 			User user = new User();
 			user.setDisplayName(patient.getFirstName()+" "+patient.getLastName());
 			user.setUsername(patient.getEmail());
-			user.setPassword(userUtil.getPwd());
+			user.setPassword(pwd);
 			user.setRole(UserRoles.PATIENT.name());
-			userService.saveUser(user);
-			// TODO : Email part pending
+			Long gen_id = userService.saveUser(user);
+			
+			if(gen_id != null) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						String msg = "username "+patient.getEmail()+
+								" and password is "+pwd;
+						
+						mailUtil.send(patient.getEmail(), "Patient id created", msg);
+						
+					}
+				}).start();
+			}
+			
 		}
 		
 		return id;

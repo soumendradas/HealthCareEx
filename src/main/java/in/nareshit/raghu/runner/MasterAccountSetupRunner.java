@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.service.IUserService;
+import in.nareshit.raghu.util.MyMailUtil;
 import in.nareshit.raghu.util.UserUtil;
 
 @Component
@@ -24,17 +25,33 @@ public class MasterAccountSetupRunner implements CommandLineRunner {
 	
 	@Autowired
 	private UserUtil userUtil;
+	
+	@Autowired
+	private MyMailUtil mailUtil;
 
 	@Override
 	public void run(String... args) throws Exception {
 		if(!userService.findByUsername(email).isPresent()) {
+			String pwd = userUtil.getPwd();
 			User user = new User();
 			user.setDisplayName(displayName);
 			user.setUsername(email);
-			user.setPassword(userUtil.getPwd());
+			user.setPassword(pwd);
 			user.setRole(UserRoles.ADMIN.name());
-			userService.saveUser(user);
-			//TODO: EMAIL SERVICE
+			Long id = userService.saveUser(user);
+			
+			if(id != null) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						String msg = "username is "+email+
+								" and password is "+ pwd;
+						mailUtil.send(email, "Admin user is created ", msg);
+						
+					}
+				}).start();
+			}
 		}
 		
 	}

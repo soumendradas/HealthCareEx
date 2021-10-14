@@ -15,6 +15,7 @@ import in.nareshit.raghu.repository.DoctorRepository;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.IUserService;
 import in.nareshit.raghu.util.MyCollectionsUtil;
+import in.nareshit.raghu.util.MyMailUtil;
 import in.nareshit.raghu.util.UserUtil;
 
 @Service
@@ -28,6 +29,9 @@ public class DoctorServiceImpl implements IDoctorService {
 	
 	@Autowired
 	private UserUtil userUtil;
+	
+	@Autowired
+	private MyMailUtil mailUtil;
 
 	@Override
 	@Transactional
@@ -36,14 +40,27 @@ public class DoctorServiceImpl implements IDoctorService {
 		Long id = repo.save(doc).getId();
 		
 		if(id != null) {
+			String pwd = userUtil.getPwd();
 			User user = new User();
 			user.setDisplayName(doc.getFirstName()+" "+doc.getLastName());
 			user.setUsername(doc.getEmail());
-			user.setPassword(userUtil.getPwd());
+			user.setPassword(pwd);
 			user.setRole(UserRoles.DOCTOR.name());
-			userService.saveUser(user);
+			Long gen_id = userService.saveUser(user);
 			
-			// TODO : Email part is pending
+			if(gen_id != null) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						String msg = "Doctor id Created. username is "+doc.getEmail()+
+								" and password is "+ pwd;
+						mailUtil.send(doc.getEmail(), "Doctor account creation", msg);
+						
+					}
+				}).start();
+			}
+			
 		}
 		
 		return id;
