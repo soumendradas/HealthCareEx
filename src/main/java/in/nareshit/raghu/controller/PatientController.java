@@ -70,12 +70,18 @@ public class PatientController {
 	}
 	
 	@GetMapping("/edit")
-	public String showEditPage(@RequestParam Long id,
+	public String showEditPage(@RequestParam(value = "id", required = false) Long id,
+			@RequestParam(value = "email", required = false) String email,
 			RedirectAttributes attributes,
 			Model model) {
 		String page = "";
 		try {
-			Patient patient = service.getOnePatient(id);
+			Patient patient = new Patient();
+			if(id != null) {
+				patient = service.getOnePatient(id);
+			}else {
+				patient = service.getOnePatientByEmail(email);
+			}
 			model.addAttribute("patient", patient);
 			page = "PatientEdit";
 		}catch (Exception e) {

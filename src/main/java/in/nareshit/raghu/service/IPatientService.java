@@ -11,6 +11,7 @@ public interface IPatientService {
 	public void removePatient(Long id);
 	public Patient getOnePatient(Long id);
 	public void updatePatient(Patient patient);
+	public Patient getOnePatientByEmail(String email);
 	
 	public boolean isEmailExist(Long id, String email);
 	

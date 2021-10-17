@@ -18,10 +18,9 @@
             <div class="card-body">
                 <table class="table table-hover">
                     <tr class="bg-secondary text-white">
-                        <th class="col-1">ID</th>
+                        <th class="col-2">Date</th>
                         <th class="col-2">Doctor Name</th>
                         <th class="col-1">Specialization</th>
-                        <th class="col-1">Date</th>
                         <th class="col-1">Slots</th>
                         <th class="col-1">Fee</th>
                         <th class="col-3">Details</th>
@@ -29,14 +28,14 @@
                     </tr>
 
                     <tr th:each="ob:${appointments}">
-                        <td>[[${ob.id}]]</td>
+                        <td>[[${ob.date}]]</td>
                         <td>[[${ob.doctor.firstName+ ' '+ ob.doctor.lastName}]]</td>
                         <td>[[${ob.doctor.specialization.specName}]]</td>
-                        <td>[[${ob.date}]]</td>
                         <td>[[${ob.noOfSlots}]]</td>
                         <td>[[${ob.fee}]]</td>
                         <td>[[${ob.details}]]</td>
                         <td>
+                            <div sec:authorize="hasAuthority('ADMIN')">
                             <a class="btn btn-danger btn-sm text-white" 
                             th:href="@{/appointment/delete(id=${ob.id})}">Delete 
                             <i class="fa fa-trash" aria-hidden="true"></i>
@@ -47,6 +46,15 @@
                             <i class="fa fa-pencil" aria-hidden="true"></i>
 
                         </a>
+
+                        </div>
+                        <div sec:authorize="hasAuthority('PATIENT')">
+                            <a class="btn btn-primary btn-sm text-white"
+                            th:href="@{/appointment/book(id=${ob.id})}">Book 
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+
+                        </a>
+                        </div>
 
                         </td>
                     </tr>

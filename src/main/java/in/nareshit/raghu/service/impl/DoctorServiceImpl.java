@@ -87,8 +87,26 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public void updateDoctor(Doctor doc) {
 		
+		String oldEmail = getOneDoctor(doc.getId()).getEmail();
+		
 		if(repo.existsById(doc.getId())) {
-			repo.save(doc);
+			if(userUtil.getLoginUserRole().contains(UserRoles.ADMIN.name())) {
+				if(!oldEmail.equals(doc.getEmail())) {
+					userService.updateUserEmail(oldEmail, doc.getEmail());
+					repo.save(doc);
+				}else {
+					repo.save(doc);
+				}
+			}else if(userUtil.getLoginUsername().contains(oldEmail)) {
+				if(!oldEmail.equals(doc.getEmail())) {
+					userService.updateUserEmail(oldEmail, doc.getEmail());
+					repo.save(doc);
+				}else {
+					repo.save(doc);
+				}
+			}
+			
+			
 		}else {
 			throw new DoctorNotFoundException(doc.getId() + " not found");
 		}
@@ -97,8 +115,11 @@ public class DoctorServiceImpl implements IDoctorService {
 	
 	@Override
 	public boolean isEmailExist(String email, Long id) {
+		if(userService.isEmailExist(email)) {
+			return true;
+		}
 		
-		if(id != 0) {
+		else if(id != 0) {
 			return repo.getEmailCountForEdit(email, id)>0;
 		}
 		

@@ -22,7 +22,7 @@ public class User {
 	@Column(name = "usr_display_name_col")
 	private String displayName;
 	
-	@Column(name = "usr_uname_col")
+	@Column(name = "usr_uname_col", unique = true)
 	private String username;
 	
 	@Column(name = "usr_upwd_col")

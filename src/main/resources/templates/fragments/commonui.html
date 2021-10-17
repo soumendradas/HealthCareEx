@@ -55,7 +55,7 @@
             </div>
           </li>
 
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown"  sec:authorize="hasAuthority('ADMIN')">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -70,7 +70,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" th:href="@{/doctor/register}">Add</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/doctor/all}">View All</a>
+              <a class="dropdown-item" th:href="@{/doctor/all}">View All</a>
             </div>
           </li>
 
@@ -87,18 +87,57 @@
               Patient
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" th:href="@{/patient/register}">Add</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" th:href="@{/patient/all}">View All</a>
+              <a class="dropdown-item" th:href="@{/patient/register}">Register</a>
+              <a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/patient/all}">View All</a>
+            </div>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Appointment
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" th:href="@{/appointment/all}">View All</a>
+              <div sec:authorize="hasAuthority('ADMIN')">
+               <a class="dropdown-item" th:href="@{/appointment/register}">Add</a>
+              </div>
             </div>
           </li>
         </ul>
 
         <ul class="navbar nav ms-auto">
-          <li class="nav-item text-white">
-            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}">
-              Logout (<span sec:authentication="name"></span>
-              <span sec:authentication="principal.authorities"></span>)</a>
+          <li class="nav-item dropdown" sec:authorize="isAuthenticated()" >
+            <a class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false" 
+            >
+               <span sec:authentication="name"></span>
+              <span sec:authentication="principal.authorities"></span></a>
+
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                <a class="dropdown-item" 
+                th:href="@{/patient/edit(email=${#authentication.getPrincipal().getUsername()})}"
+                 sec:authorize="hasAuthority('PATIENT')">Edit Profile</a>
+                <a class="dropdown-item" th:href="@{/user/changepassword}">Change Password</a>
+              </div>
+
+
+          </li>
+          <li class="nav-item" sec:authorize="!isAuthenticated()">
+            <a class="nav-link text-white" th:href="@{/login}">Login</a>
           </li>
         </ul>
       </div>
