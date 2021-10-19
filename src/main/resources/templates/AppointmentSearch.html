@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Appointment Search</title>
+    <div th:replace="fragments/commonui :: header"></div>
+</head>
+<body>
+    <div th:replace="fragments/commonui :: menu"></div>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Doctor Data</h3>
+            </div>
+
+            <div class="card-body">
+
+                <form th:action="@{/appointment/view}" class="mb-3">
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="specId">Specialization</label>
+                        </div>
+                        <div class="col-4">
+                            <select name="specId" id="specId" class="form-control">
+                                <option value="0">--View All Doctors--</option>
+                                <option th:each="spec:${specializations}" th:value="${spec.key}" th:text="${spec.value}"></option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <input class="btn btn-primary" type="submit" value="Search">
+                        </div>
+                    </div>
+                </form>
+
+                <div class="mb-2">
+                    <b><span th:text="${message}"></span></b>
+                </div>
+
+                <div class="card mb-3" th:each="ob: ${docList}">
+                    <div class="row">
+                      <div class="col-2">
+                        <img
+                          th:src="@{${ob.photoLoc}}"
+                          alt="${ob.photoLoc}"
+                          border="0"
+                          width="100"
+                          height="100"
+                          class="m-4"
+                        />
+                      </div>
+                      <div class="col-8">
+                        <div class="card-body">
+                          <div class="row">
+                            <!-- <h4><span th:text="${ob.firstName}"> </span>&nbsp;<span th:text="${ob.lastName}"></span></h4> -->
+                            <h4>[[${ob.firstName+ ' ' +ob.lastName}]]</h4>
+                          </div>
+                          <div class="row">
+                            <h5>[[${ob.specialization.specName}]]</h5>
+                          </div>
+                          <div class="row">
+                            <b>Mobile: </b>&nbsp;<span th:text="${ob.mobile}"></span> &nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>Email: </b>&nbsp;&nbsp;
+                            <span th:text="${ob.email}"></span>
+                          </div>
+                          <div class="row">
+                            <p th:text="${ob.note}"></p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="row my-2">
+                          <a
+                            class="btn btn-danger"
+                            th:href="@{/appointment/book(id=${ob.id})}"
+                            >Book Slot</a></div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

@@ -1,5 +1,6 @@
 package in.nareshit.raghu.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Appointment;
+import in.nareshit.raghu.entity.Doctor;
 import in.nareshit.raghu.service.IAppointmentService;
 import in.nareshit.raghu.service.IDoctorService;
+import in.nareshit.raghu.service.ISpecializationService;
 
 @Controller
 @RequestMapping("/appointment")
@@ -26,6 +30,9 @@ public class AppointmentController {
 
 	@Autowired
 	private IDoctorService docService;
+	
+	@Autowired
+	private ISpecializationService specService;
 	
 	private void getAllDoctorNamesAndId(Model model) {
 		Map<Long, String> docs = docService.getDoctorIdNamesAndSpec();
@@ -114,6 +121,32 @@ public class AppointmentController {
 		attributes.addAttribute("message", message);
 		
 		return "redirect:all";
+	}
+	
+	@GetMapping("/view")
+	public String viewSlots(@RequestParam(required = false, 
+			defaultValue = "0") Long specId, Model model) {
+		
+		Map<Long, String> specializations = specService.getSpecIdAndName(); 
+		
+		List<Doctor> docList = null;
+		
+		String message = null;
+		
+		if(specId == 0) {
+			docList = docService.getAllDoctors();
+			message = "Result : All Doctors"; 
+		}else {
+			docList = docService.findDoctorBySpecId(specId);
+			message = "Result : "
+					+specService.getOneSpecialization(specId).getSpecName()+" Doctors";
+		}
+		
+		model.addAttribute("specializations", specializations);
+		model.addAttribute("docList",docList);
+		model.addAttribute("message", message);
+		
+		return "AppointmentSearch";
 	}
 
 }

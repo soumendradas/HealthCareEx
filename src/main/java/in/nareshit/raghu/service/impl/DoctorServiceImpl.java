@@ -13,6 +13,7 @@ import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.repository.DoctorRepository;
 import in.nareshit.raghu.service.IDoctorService;
+import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.service.IUserService;
 import in.nareshit.raghu.util.MyCollectionsUtil;
 import in.nareshit.raghu.util.MyMailUtil;
@@ -26,6 +27,9 @@ public class DoctorServiceImpl implements IDoctorService {
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private ISpecializationService specService;
 	
 	@Autowired
 	private UserUtil userUtil;
@@ -139,6 +143,14 @@ public class DoctorServiceImpl implements IDoctorService {
 	public Map<Long, String> getDoctorIdNamesAndSpec() {
 		List<Object[]> doctors = repo.getDoctorIdNamesAndSpec();		
 		return MyCollectionsUtil.convertToMapIndex(doctors);
+	}
+	
+	@Override
+	public List<Doctor> findDoctorBySpecId(Long SpecId) {
+		
+		
+		return repo.findBySpecialization(specService.getOneSpecialization(SpecId));
+		
 	}
 
 }
