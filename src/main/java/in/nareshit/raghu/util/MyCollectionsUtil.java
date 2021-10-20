@@ -17,7 +17,7 @@ public interface MyCollectionsUtil {
 				ob->ob[1].toString()));
 	}
 	
-	public static Map<Long, String> convertToMapIndex(List<Object[]> list) {
+	public static Map<Long, String> convertToMapForDoctor(List<Object[]> list) {
 		
 		Map<Long, String> map = list.stream()
 							.collect(Collectors.toMap(d->Long.parseLong(d[0].toString()),

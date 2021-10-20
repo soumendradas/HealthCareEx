@@ -1,6 +1,6 @@
 package in.nareshit.raghu.controller;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -147,6 +147,20 @@ public class AppointmentController {
 		model.addAttribute("message", message);
 		
 		return "AppointmentSearch";
+	}
+	
+	@GetMapping("viewSlot")
+	public String showSlots(@RequestParam Long id, Model model) {
+		
+		LocalDate date = LocalDate.now();
+		List<Object[]> appointments = service.getAppointmentByDoctor(id, date);
+		Doctor doc = docService.getOneDoctor(id);
+		
+		model.addAttribute("list", appointments);
+		model.addAttribute("message","Result for: "+
+				doc.getFirstName()+" "+doc.getLastName());
+		
+		return "AppointmentSlots";
 	}
 
 }

@@ -142,7 +142,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public Map<Long, String> getDoctorIdNamesAndSpec() {
 		List<Object[]> doctors = repo.getDoctorIdNamesAndSpec();		
-		return MyCollectionsUtil.convertToMapIndex(doctors);
+		return MyCollectionsUtil.convertToMapForDoctor(doctors);
 	}
 	
 	@Override

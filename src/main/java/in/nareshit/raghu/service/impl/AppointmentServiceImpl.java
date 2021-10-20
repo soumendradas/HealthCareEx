@@ -58,5 +58,11 @@ public class AppointmentServiceImpl implements IAppointmentService {
 		
 		return repo.findByDate(date);
 	}
+	
+	@Override
+	public List<Object[]> getAppointmentByDoctor(Long docId, LocalDate date) {
+		
+		return repo.findByDoctorIdAndDate(docId, date);
+	}
 
 }
