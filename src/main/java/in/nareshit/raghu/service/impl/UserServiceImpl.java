@@ -57,6 +57,17 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 		if (passwordEncoder.matches(currentPassword, user.getPassword())) {
 			user.setPassword(newPassword);
 			saveUser(user);
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					mailUtil.send(username,
+							"Password Changed",
+							"You recently change your password");
+					
+				}
+			}).start();
+		
 		}
 
 	}

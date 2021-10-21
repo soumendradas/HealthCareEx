@@ -14,5 +14,6 @@ public interface IUserService {
 	void updateUserEmail(String oldEmail, String newEmail);
 	
 	boolean isEmailExist(String email);
+	
 
 }
