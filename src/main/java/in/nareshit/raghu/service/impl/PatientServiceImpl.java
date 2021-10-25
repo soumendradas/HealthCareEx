@@ -88,8 +88,14 @@ public class PatientServiceImpl implements IPatientService {
 
 	@Override
 	public Patient getOnePatientByEmail(String email) {
-
-		return repo.findByEmail(email).orElseThrow(() -> new PatientNotFoundException("Email is invalid"));
+		
+		if(email.equals(userUtil.getLoginUsername())) {
+			return repo.findByEmail(email)
+					.orElseThrow(() -> new PatientNotFoundException("Email is invalid"));
+		}
+		
+		throw new PatientNotFoundException("Wrong Email Address");
+		
 	}
 
 	@Override
@@ -110,12 +116,8 @@ public class PatientServiceImpl implements IPatientService {
 
 			} else if (oldEmail.equals(userUtil.getLoginUsername())) {
 				if (!oldEmail.equals(patient.getEmail())) {
-					try {
-						userService.updateUserEmail(oldEmail, patient.getEmail());
-						repo.save(patient);
-					} catch (Exception e) {
-						e.getMessage();
-					}
+					userService.updateUserEmail(oldEmail, patient.getEmail());
+					repo.save(patient);
 				} else {
 					repo.save(patient);
 				}

@@ -76,7 +76,7 @@ public class PatientController {
 			Model model) {
 		String page = "";
 		try {
-			Patient patient = new Patient();
+			Patient patient = null;
 			if(id != null) {
 				patient = service.getOnePatient(id);
 			}else {
