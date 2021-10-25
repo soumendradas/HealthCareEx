@@ -44,10 +44,12 @@
                 </div>
                 <div class="col-4">
                   <input
-                    class="form-control"
-                    type="date"
+                    class="form-control datepicker"
+                    type="text"
                     name="date"
                     id="date"
+                    autocomplete="off"
+                    readonly
                   />
                 </div>
                 <div class="col-6">
@@ -124,5 +126,11 @@
         </div>
       </div>
     </div>
+
+    <script>
+      $(".datepicker").datepicker({
+        startDate: new Date()
+      })
+    </script>
   </body>
 </html>

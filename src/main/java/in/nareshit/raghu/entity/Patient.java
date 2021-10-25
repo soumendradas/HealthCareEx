@@ -47,7 +47,7 @@ public class Patient {
 	private String email;
 	
 	@Column(name = "pat_dob_col")
-	@DateTimeFormat(iso = ISO.DATE)
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private LocalDate dateOfBirth;
 	
 	@Column(name = "pat_ms_col", nullable = false)

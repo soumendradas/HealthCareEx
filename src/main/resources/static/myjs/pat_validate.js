@@ -1,4 +1,9 @@
 $(document).ready(function () {
+
+    $(".datepicker").datepicker({
+      endDate: new Date()
+    })
+
     $("#firstNameError").hide();
     $("#lastNameError").hide();
     $("#genderError").hide();
@@ -12,11 +17,12 @@ $(document).ready(function () {
     $("#emailError").hide();
     $("#ifOther").attr('readonly','true')
 
+
     var firstNameError = false;
     var lastNameError = false;
     var genderError = false;
     var mobileError = false;
-    //var dateOfBirthError = false;
+    var dateOfBirthError = false;
     var martialStatusError = false;
     var presentAddressError = false;
     var communicationAddressError = false;
@@ -114,6 +120,20 @@ $(document).ready(function () {
     }
 
     //date of Birth validation pending
+
+    function dateOfBirth_validation(){
+      var val = $("#dateOfBirth").val();
+      if (val == "") {
+        $("#dateOfBirthError").show();
+        $("#dateOfBirthError").html("<b>Date of Birth</b> not to be empty");
+        $("#dateOfBirthError").css("color", "red");
+        dateOfBirthError = false;
+      }else{
+        $("#dateOfBirthError").hide();
+        dateOfBirthError = true;
+      }
+      return dateOfBirthError;
+    }
 
     function martialStatus_validation(){
       var len = $("input[name='martialStatus']:checked").length;
@@ -261,6 +281,10 @@ $(document).ready(function () {
       email_validation();
     })
 
+    $("#dateOfBirth").click(function(){
+      dateOfBirth_validation();
+    })
+
     $("input[name='martialStatus']").click(function(){
       martialStatus_validation();
     });
@@ -303,6 +327,7 @@ $(document).ready(function () {
       mediHistory_validation();
       mobile_validation();
       email_validation();
+      dateOfBirth_validation();
 
       if(firstNameError&&
         lastNameError&&
@@ -312,7 +337,8 @@ $(document).ready(function () {
         communicationAddressError&&
         mediHistoryError&&
         mobileError&&
-        emailError){
+        emailError&&
+        dateOfBirthError){
           return true;
         }else return false;
     });

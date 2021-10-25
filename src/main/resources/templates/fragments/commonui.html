@@ -14,6 +14,11 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
       />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+      />
     </div>
   </head>
   <body>
@@ -55,7 +60,7 @@
             </div>
           </li>
 
-          <li class="nav-item dropdown"  sec:authorize="hasAuthority('ADMIN')">
+          <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -87,8 +92,15 @@
               Patient
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" th:href="@{/patient/register}">Register</a>
-              <a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/patient/all}">View All</a>
+              <a class="dropdown-item" th:href="@{/patient/register}"
+                >Register</a
+              >
+              <a
+                class="dropdown-item"
+                sec:authorize="hasAuthority('ADMIN')"
+                th:href="@{/patient/all}"
+                >View All</a
+              >
             </div>
           </li>
 
@@ -105,39 +117,52 @@
               Appointment
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" th:href="@{/appointment/view}" sec:authorize="isAuthenticated()">
+              <a
+                class="dropdown-item"
+                th:href="@{/appointment/view}"
+                sec:authorize="isAuthenticated()"
+              >
                 Book
               </a>
               <div sec:authorize="hasAuthority('ADMIN')">
-                <a class="dropdown-item" th:href="@{/appointment/all}">View All</a>
-               <a class="dropdown-item" th:href="@{/appointment/register}">Add</a>
+                <a class="dropdown-item" th:href="@{/appointment/all}"
+                  >View All</a
+                >
+                <a class="dropdown-item" th:href="@{/appointment/register}"
+                  >Add</a
+                >
               </div>
             </div>
           </li>
         </ul>
 
         <ul class="navbar nav ms-auto">
-          <li class="nav-item dropdown" sec:authorize="isAuthenticated()" >
-            <a class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false" 
+          <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
-               <span sec:authentication="name"></span>
-              <span sec:authentication="principal.authorities"></span></a>
+              <span sec:authentication="name"></span>
+              <span sec:authentication="principal.authorities"></span
+            ></a>
 
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" th:href="@{/logout}">Logout</a>
-                <a class="dropdown-item" 
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+              <a
+                class="dropdown-item"
                 th:href="@{/patient/edit(email=${#authentication.getPrincipal().getUsername()})}"
-                 sec:authorize="hasAuthority('PATIENT')">Edit Profile</a>
-                <a class="dropdown-item" th:href="@{/user/changepassword}">Change Password</a>
-              </div>
-
-
+                sec:authorize="hasAuthority('PATIENT')"
+                >Edit Profile</a
+              >
+              <a class="dropdown-item" th:href="@{/user/changepassword}"
+                >Change Password</a
+              >
+            </div>
           </li>
           <li class="nav-item" sec:authorize="!isAuthenticated()">
             <a class="nav-link text-white" th:href="@{/login}">Login</a>
@@ -145,6 +170,5 @@
         </ul>
       </div>
     </nav>
-
   </body>
 </html>

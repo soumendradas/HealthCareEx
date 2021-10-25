@@ -30,7 +30,7 @@ public class Appointment {
 	@Column(name = "app_id_col")
 	private Long id;
 	
-	@DateTimeFormat(iso = ISO.DATE)
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	@Column(name="app_date_col")
 	private LocalDate date;
 	
