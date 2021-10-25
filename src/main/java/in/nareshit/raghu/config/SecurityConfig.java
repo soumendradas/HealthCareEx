@@ -34,17 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.mvcMatchers("/patient/register", "/patient/save").permitAll()
 			.mvcMatchers("/patient/all","/patient/delete")
 				.hasAuthority(UserRoles.ADMIN.name())
-			.mvcMatchers("/patient/edit","patient/update")
+			.mvcMatchers("/patient/**")
 				.hasAnyAuthority(UserRoles.PATIENT.name(), UserRoles.ADMIN.name())
-			.mvcMatchers("/doctor/register", "/doctor/delete", "/doctor/save")
+			.mvcMatchers("/doctor/**")
 				.hasAuthority(UserRoles.ADMIN.name())
-			
-			.mvcMatchers("/doctor/edit", "doctor/update")
-					.hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.DOCTOR.name())
 			
 			.mvcMatchers("/spec/**").hasAuthority(UserRoles.ADMIN.name())
 			.mvcMatchers("appointment/register", "appointment/update", "appointment/delete")
 					.hasAuthority(UserRoles.ADMIN.name())
+			.mvcMatchers("appointment/view", "appointment/viewAll")
+					.hasAuthority(UserRoles.PATIENT.name())
 			.mvcMatchers("appointment/all").permitAll()		
 			.anyRequest().authenticated()
 			
