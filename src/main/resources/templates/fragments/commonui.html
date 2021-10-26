@@ -147,7 +147,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <span sec:authentication="name"></span>
+              <span>[[${session.userOb.displayName}]]</span>
               <span sec:authentication="principal.authorities"></span
             ></a>
 
