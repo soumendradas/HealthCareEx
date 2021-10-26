@@ -18,6 +18,12 @@ public class UserController {
 	@Autowired
 	private IUserService service;
 	
+	@GetMapping("/login")
+	public String showLoginPage() {
+		
+		return "UserLogin";
+	}
+	
 	@GetMapping("changepassword")
 	public String showChangePasswordPage(@RequestParam(required = false) String message,
 			Model model) {

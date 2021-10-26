@@ -105,6 +105,7 @@ public class PatientServiceImpl implements IPatientService {
 
 		if (repo.existsById(patient.getId())) {
 			if (userUtil.getLoginUserRole().contains(UserRoles.ADMIN.name())) {
+				//Update By Admin
 				if (!oldEmail.equals(patient.getEmail())) {
 
 					userService.updateUserEmail(oldEmail, patient.getEmail());
@@ -115,6 +116,7 @@ public class PatientServiceImpl implements IPatientService {
 				}
 
 			} else if (oldEmail.equals(userUtil.getLoginUsername())) {
+				//Update by User
 				if (!oldEmail.equals(patient.getEmail())) {
 					userService.updateUserEmail(oldEmail, patient.getEmail());
 					repo.save(patient);

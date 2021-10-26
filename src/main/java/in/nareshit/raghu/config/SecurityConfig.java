@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import in.nareshit.raghu.constants.UserRoles;
 
@@ -31,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
+			.mvcMatchers("/user/login").permitAll()
 			.mvcMatchers("/patient/register", "/patient/save").permitAll()
 			.mvcMatchers("/patient/all","/patient/delete")
 				.hasAuthority(UserRoles.ADMIN.name())
@@ -49,9 +51,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			
 			.and()
 			.formLogin()
+			.loginPage("/user/login")  //show login Page
+			.loginProcessingUrl("/login")	//POST (do login)
 			.defaultSuccessUrl("/spec/all", true)
+			.failureUrl("/user/login?error=true")	//if login is failed
 			.and()
-			.logout();
+			.logout()
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  //Url for logout
+			.logoutSuccessUrl("/user/login?logout=true")		//on logout success
+			;
 	}
 
 }
