@@ -9,7 +9,7 @@ public interface IUserService {
 	Long saveUser(User user);
 	Optional<User> findByUsername(String username);
 	
-	void updatePassword(String currentPassword, String newPassword);
+	String updatePassword(String currentPassword, String newPassword);
 	
 	void updateUserEmail(String oldEmail, String newEmail);
 	

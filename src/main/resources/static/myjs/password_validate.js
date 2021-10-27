@@ -25,12 +25,19 @@ $(document).ready(function () {
 
   function validate_newPass() {
     let val = $("#newPassword").val();
+    let exp = /^[A-Za-z0-9\!\@\#\.\,\*\&]{6,15}$/;
     if (val == "") {
       $("#newPasswordError").show();
       $("#newPasswordError").html("Please Enter New Password");
       $("#newPasswordError").css("color", "red");
       newPasswordError = false;
-    }else{
+    }else if(!exp.test(val)){
+      $("#newPasswordError").show();
+      $("#newPasswordError").html("Please Enter valid password like chars 6-10");
+      $("#newPasswordError").css("color", "red");
+      newPasswordError = false;
+    }
+    else{
         $("#newPasswordError").hide();
         newPasswordError = true;
     }

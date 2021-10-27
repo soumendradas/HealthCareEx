@@ -3,6 +3,8 @@ package in.nareshit.raghu.service.impl;
 import java.util.Collections;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,12 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.repository.UserRepository;
 import in.nareshit.raghu.service.IUserService;
 import in.nareshit.raghu.util.MyMailUtil;
-import in.nareshit.raghu.util.UserUtil;
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
@@ -27,10 +29,10 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
-	private UserUtil userUtil;
-
-	@Autowired
 	private MyMailUtil mailUtil;
+	
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	public Long saveUser(User user) {
@@ -50,24 +52,27 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	}
 
 	@Override
-	public void updatePassword(String currentPassword, String newPassword) {
-		String username = userUtil.getLoginUsername();
-		User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
-
+	@Transactional
+	public String updatePassword(String currentPassword, String newPassword) {
+		User user = (User) session.getAttribute("userOb");
 		if (passwordEncoder.matches(currentPassword, user.getPassword())) {
-			user.setPassword(newPassword);
-			saveUser(user);
+			String password = passwordEncoder.encode(newPassword);
+			repo.updatePassword(user.getId(), password);
 			new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
-					mailUtil.send(username,
+					mailUtil.send(user.getUsername(),
 							"Password Changed",
-							"You recently change your password");
+							"You recently change your password and your password is "+ 
+							newPassword);
 					
 				}
 			}).start();
+			return "Your password changed";
 		
+		}else {
+			return "invalid current password";
 		}
 
 	}

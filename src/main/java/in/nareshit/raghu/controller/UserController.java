@@ -52,9 +52,9 @@ public class UserController {
 	public String updatePassword(@RequestParam String currentPassword, 
 			@RequestParam String newPassword, RedirectAttributes attributes) {
 		
-		service.updatePassword(currentPassword, newPassword);
+		String message = service.updatePassword(currentPassword, newPassword);
 		
-		attributes.addAttribute("message", "Your password is changed");
+		attributes.addAttribute("message", message);
 		
 		return "redirect:changepassword";
 	}
