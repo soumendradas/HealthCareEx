@@ -2,6 +2,7 @@
   <head>
     <div th:replace="fragments/commonui :: header"></div>
     <title>Patient Register</title>
+    
     <style>
       .row {
         margin-bottom: 5px;
@@ -9,7 +10,7 @@
     </style>
   </head>
   <body>
-    <div th:replace="fragments/commonui :: menu"></div>
+    <div th:replace="fragments/commonUser :: menu"></div>
     <div class="container">
       <div class="card">
         <div class="card-header bg-primary text-white text-center">
@@ -334,6 +335,6 @@ If Present and communication address are same <input type="checkbox" id="address
       </div>
     </div>
 
-    <script th:src="@{/myjs/pat_validate.js}"></script>
+    <script type = "text/javascript" th:src="@{/myjs/patient_validate.js}"></script>
   </body>
 </html>

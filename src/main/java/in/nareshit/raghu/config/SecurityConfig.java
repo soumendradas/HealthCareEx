@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
+			.mvcMatchers("/myjs/**").permitAll()		//for enable javascript file
 			.mvcMatchers("/user/login").permitAll()
 			.mvcMatchers("/patient/register", "/patient/save").permitAll()
 			.mvcMatchers("/patient/all","/patient/delete")
