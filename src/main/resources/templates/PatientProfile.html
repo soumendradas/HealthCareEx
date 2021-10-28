@@ -14,63 +14,64 @@
         </div>
 
         <div class="card-body">
-          <div class="row">
-            <div class="col-3"><h3>Full name:</h3></div>
-            <div class="col-9">
-              <h3>[[${pat.firstName+' '+ pat.lastName}]]</h3>
-            </div>
-          </div>
+          <table class="table table-hover">
+            <tr>
+              <th>FULL NAME</th>
+              <td>[[${pat.firstName+' '+ pat.lastName}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Gender:</h3></div>
-            <div class="col-9"><h3>[[${pat.gender}]]</h3></div>
-          </div>
+            <tr>
+                <th>GENDER</th>
+                <td>[[${pat.gender}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Date of Birth:</h3></div>
-            <div class="col-9"><h3>[[${pat.dateOfBirth}]]</h3></div>
-          </div>
+            <tr>
+                <th>DATE OF BIRTH</th>
+                <td>[[${pat.dateOfBirth}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Martial Status:</h3></div>
-            <div class="col-9"><h3>[[${pat.martialStatus}]]</h3></div>
-          </div>
+            <tr>
+                <th>MARTIAL STATUS</th>
+                <td>[[${pat.martialStatus}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Medical History:</h3></div>
-            <div class="col-9"><h3>[[${pat.mediHistory+','+pat.ifOther}]]</h3></div>
-          </div>
+            <tr>
+                <th>MEDICAL HISTORY</th>
+                <td>[[${pat.mediHistory+','+pat.ifOther}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Mobile:</h3></div>
-            <div class="col-9"><h3>[[${pat.mobile}]]</h3></div>
-          </div>
+            <tr>
+                <th>MOBILE</th>
+                <td>[[${pat.mobile}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Email:</h3></div>
-            <div class="col-9"><h3>[[${pat.email}]]</h3></div>
-          </div>
+            <tr>
+                <th>EMAIL</th>
+                <td>[[${pat.email}]]</td>
+            </tr>
 
-          <div class="row">
-            <div class="col-3"><h3>Present Address:</h3></div>
-            <div class="col-9"><b>[[${pat.presentAddress}]]</b></div>
-          </div>
+            <tr>
+                <th>PRESENT ADDRESS</th>
+                <td>[[${pat.presentAddress}]]</td>
+            </tr>
+                
+            <tr>
+                <th>COMMUNICATION ADDRESS</th>
+                <td>[[${pat.communicationAddress}]]</td>
+            </tr>
+            <tr>
+                <th>NOTES</th>
+                <td>[[${pat.note}]]</td>
+            </tr>
+          </table>
 
-          <div class="row">
-            <div class="col-3"><h3>Communication Address:</h3></div>
-            <div class="col-9"><b>[[${pat.communicationAddress}]]</b></div>
-          </div>
-
-          <div class="row">
-            <div class="col-3"><h3>Notes:</h3></div>
-            <div class="col-9"><b>[[${pat.note}]]</b></div>
-          </div>
-
-          <a class="btn btn-primary mt-2" th:href="@{/patient/edit}">Edit Profile</a>
+          <a class="btn btn-primary mt-2" th:href="@{/patient/edit}"
+            >Edit Profile</a
+          >
         </div>
 
         <div class="card-footer bg-success text-white">
-            <span th:text="${message}"></span>
+          <span th:text="${message}"></span>
         </div>
       </div>
     </div>

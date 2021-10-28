@@ -1,5 +1,6 @@
 package in.nareshit.raghu.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +40,6 @@ public class DoctorController {
 
 	@Autowired
 	private MyMailUtil mailUtil;
-	
-	@Autowired
-	private UserUtil userUtil;
 
 	private void createDynamicUi(Model model) {
 		Map<Long, String> specializtions = specService.getSpecIdAndName();
@@ -159,10 +157,9 @@ public class DoctorController {
 	}
 	
 	@GetMapping("showProfile")
-	public String showProfilePage(Model model) {
+	public String showProfilePage(Model model, Principal p) {
 		
-		User user = userUtil.getUser();
-		Doctor doc = service.findDoctorByEmail(user.getUsername());
+		Doctor doc = service.findDoctorByEmail(p.getName());
 		model.addAttribute("doc", doc);
 		
 		return "DoctorProfile";

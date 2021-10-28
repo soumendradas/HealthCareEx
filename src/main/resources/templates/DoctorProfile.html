@@ -16,40 +16,42 @@
                 <div class="text-center mb-5">
                     <img th:src="${doc.photoLoc}" class="rounded-circle" style="width: 200px; height:200px">
                 </div>
-                <div class="row">
-                    
-                    <div class="col-3"><h3>Full name: </h3></div>
-                    <div class="col-9"><h3>[[${doc.firstName+' '+ doc.lastName}]]</h3></div>
-                </div>
-                <div class="row">
-                    <div class="col-3"><h3>Specialization:</h3></div>
-                    <div class="col-9"><h3>[[${doc.Specialization.specName}]]</h3></div>
-                </div>
 
-                <div class="row">
-                    <div class="col-3"><h3>Email:</h3></div>
-                    <div class="col-9"><h3>[[${doc.email}]]</h3></div>
-                </div>
+                <table class="table table-hover">
+                    <tr>
+                        <th>FULL NAME</th>
+                        <td>[[${doc.firstName+' '+ doc.lastName}]]</td>
+                    </tr>
 
-                <div class="row">
-                    <div class="col-3"><h3>Mobile:</h3></div>
-                    <div class="col-9"><h3>[[${doc.mobile}]]</h3></div>
-                </div>
+                    <tr>
+                        <th>SPECIALIZATION</th>
+                        <td>[[${doc.Specialization.specName}]]</td>
+                    </tr>
 
-                <div class="row">
-                    <div class="col-3"><h3>Gender:</h3></div>
-                    <div class="col-9"><h3>[[${doc.gender}]]</h3></div>
-                </div>
+                    <tr>
+                        <th>EMAIL</th>
+                        <td>[[${doc.email}]]</td>
+                    </tr>
+                    <tr>
+                        <th>MOBILE</th>
+                        <td>[[${doc.mobile}]]</td>
+                    </tr>
 
-                <div class="row">
-                    <div class="col-3"><h3>Address:</h3></div>
-                    <div class="col-9"><b>[[${doc.address}]]</b></div>
-                </div>
+                    <tr>
+                        <th>GENDER</th>
+                        <td>[[${doc.gender}]]</td>
+                    </tr>
 
-                <div class="row">
-                    <div class="col-3"><h3>Note:</h3></div>
-                    <div class="col-9"><b>[[${doc.note}]]</b></div>
-                </div>
+                    <tr>
+                        <th>ADDRESS</th>
+                        <td>[[${doc.address}]]</td>
+                    </tr>
+
+                    <tr>
+                        <th>NOTES</th>
+                        <td>[[${doc.note}]]</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

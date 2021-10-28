@@ -1,5 +1,6 @@
 package in.nareshit.raghu.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -133,11 +134,9 @@ public class PatientController {
 	
 	@RequestMapping("showProfile")
 	public String viewProfile(@RequestParam(value = "message", required = false) String message
-			, Model model) {
+			, Model model, Principal p) {
 		
-		User user = userUtil.getUser();
-		
-		Patient patient = service.getOnePatientByEmail(user.getUsername());
+		Patient patient = service.getOnePatientByEmail(p.getName());
 		model.addAttribute("pat", patient);
 		model.addAttribute("message", message);
 		
