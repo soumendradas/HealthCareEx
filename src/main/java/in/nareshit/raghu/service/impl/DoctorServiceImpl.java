@@ -3,6 +3,8 @@ package in.nareshit.raghu.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,9 @@ public class DoctorServiceImpl implements IDoctorService {
 	
 	@Autowired
 	private MyMailUtil mailUtil;
+	
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	@Transactional
@@ -90,18 +95,18 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	@Override
 	public void updateDoctor(Doctor doc) {
-		
+		User user = (User) session.getAttribute("userOb");
 		String oldEmail = getOneDoctor(doc.getId()).getEmail();
 		
 		if(repo.existsById(doc.getId())) {
-			if(userUtil.getLoginUserRole().contains(UserRoles.ADMIN.name())) {
+			if(user.getRole().equals(UserRoles.ADMIN.name())) {
 				if(!oldEmail.equals(doc.getEmail())) {
 					userService.updateUserEmail(oldEmail, doc.getEmail());
 					repo.save(doc);
 				}else {
 					repo.save(doc);
 				}
-			}else if(userUtil.getLoginUsername().contains(oldEmail)) {
+			}else if(user.getUsername().equals(oldEmail)) {
 				if(!oldEmail.equals(doc.getEmail())) {
 					userService.updateUserEmail(oldEmail, doc.getEmail());
 					repo.save(doc);

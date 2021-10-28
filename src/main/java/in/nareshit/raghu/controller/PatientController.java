@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.service.IPatientService;
@@ -74,16 +75,16 @@ public class PatientController {
 	
 	@GetMapping("/edit")
 	public String showEditPage(@RequestParam(value = "id", required = false) Long id,
-			@RequestParam(value = "email", required = false) String email,
 			RedirectAttributes attributes,
-			Model model) {
+			Model model, HttpSession session) {
 		String page = "";
+		User user = (User) session.getAttribute("userOb");
 		try {
 			Patient patient = null;
-			if(id != null) {
+			if(user.getRole().equals(UserRoles.ADMIN.name())) {
 				patient = service.getOnePatient(id);
 			}else {
-				patient = service.getOnePatientByEmail(email);
+				patient = service.getOnePatientByEmail(user.getUsername());
 			}
 			model.addAttribute("patient", patient);
 			page = "PatientEdit";
@@ -97,9 +98,9 @@ public class PatientController {
 	
 	@PostMapping("update")
 	public String update(@ModelAttribute Patient patient,
-			RedirectAttributes attributes) {
-		
+			RedirectAttributes attributes, HttpSession session) {
 		String message = "";
+		User user = (User) session.getAttribute("userOb");
 		try {
 			service.updatePatient(patient);
 			message = "Patient "+patient.getId()+ " updated";
@@ -107,7 +108,11 @@ public class PatientController {
 			message = e.getMessage();
 		}
 		attributes.addAttribute("message", message);
-		return "redirect:all";
+		
+		if(user.getRole().equals(UserRoles.ADMIN.name())) {
+			return "redirect:all";
+		}
+		return "redirect:showProfile";
 	}
 	
 	@GetMapping("checkEmail")
@@ -123,12 +128,14 @@ public class PatientController {
 	}
 	
 	@RequestMapping("showProfile")
-	public String viewProfile(HttpSession session, Model model) {
+	public String viewProfile(@RequestParam(value = "message", required = false) String message,
+			HttpSession session, Model model) {
 		
 		User user = (User) session.getAttribute("userOb");
 		
 		Patient patient = service.getOnePatientByEmail(user.getUsername());
 		model.addAttribute("pat", patient);
+		model.addAttribute("message", message);
 		
 		return "PatientProfile";
 	}

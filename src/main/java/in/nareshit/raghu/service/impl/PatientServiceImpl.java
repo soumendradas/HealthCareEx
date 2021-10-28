@@ -2,6 +2,8 @@ package in.nareshit.raghu.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class PatientServiceImpl implements IPatientService {
 
 	@Autowired
 	private MyMailUtil mailUtil;
+	
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	@Transactional
@@ -88,8 +93,8 @@ public class PatientServiceImpl implements IPatientService {
 
 	@Override
 	public Patient getOnePatientByEmail(String email) {
-		
-		if(email.equals(userUtil.getLoginUsername())) {
+		User user = (User) session.getAttribute("userOb");
+		if(email.equals(user.getUsername())) {
 			return repo.findByEmail(email)
 					.orElseThrow(() -> new PatientNotFoundException("Email is invalid"));
 		}
@@ -102,9 +107,9 @@ public class PatientServiceImpl implements IPatientService {
 	@Transactional
 	public void updatePatient(Patient patient) {
 		String oldEmail = getOnePatient(patient.getId()).getEmail();
-
+		User user = (User) session.getAttribute("userOb");
 		if (repo.existsById(patient.getId())) {
-			if (userUtil.getLoginUserRole().contains(UserRoles.ADMIN.name())) {
+			if (user.getRole().equals(UserRoles.ADMIN.name())) {
 				//Update By Admin
 				if (!oldEmail.equals(patient.getEmail())) {
 
@@ -115,7 +120,7 @@ public class PatientServiceImpl implements IPatientService {
 					repo.save(patient);
 				}
 
-			} else if (oldEmail.equals(userUtil.getLoginUsername())) {
+			} else if (oldEmail.equals(user.getUsername())) {
 				//Update by User
 				if (!oldEmail.equals(patient.getEmail())) {
 					userService.updateUserEmail(oldEmail, patient.getEmail());
