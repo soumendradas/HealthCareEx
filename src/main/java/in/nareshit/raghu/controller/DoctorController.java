@@ -24,6 +24,7 @@ import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.util.MyMailUtil;
+import in.nareshit.raghu.util.UserUtil;
 import in.nareshit.raghu.view.DoctorExcelView;
 
 @Controller
@@ -38,6 +39,9 @@ public class DoctorController {
 
 	@Autowired
 	private MyMailUtil mailUtil;
+	
+	@Autowired
+	private UserUtil userUtil;
 
 	private void createDynamicUi(Model model) {
 		Map<Long, String> specializtions = specService.getSpecIdAndName();
@@ -155,9 +159,9 @@ public class DoctorController {
 	}
 	
 	@GetMapping("showProfile")
-	public String showProfilePage(HttpSession session, Model model) {
+	public String showProfilePage(Model model) {
 		
-		User user = (User) session.getAttribute("userOb");
+		User user = userUtil.getUser();
 		Doctor doc = service.findDoctorByEmail(user.getUsername());
 		model.addAttribute("doc", doc);
 		

@@ -19,6 +19,7 @@ import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.service.IPatientService;
+import in.nareshit.raghu.util.UserUtil;
 
 @Controller
 @RequestMapping("patient")
@@ -26,6 +27,9 @@ public class PatientController {
 	
 	@Autowired
 	private IPatientService service;
+	
+	@Autowired
+	private UserUtil userUtil;
 	
 	@GetMapping("/register")
 	public String showRegisterPage(
@@ -76,9 +80,9 @@ public class PatientController {
 	@GetMapping("/edit")
 	public String showEditPage(@RequestParam(value = "id", required = false) Long id,
 			RedirectAttributes attributes,
-			Model model, HttpSession session) {
+			Model model) {
 		String page = "";
-		User user = (User) session.getAttribute("userOb");
+		User user = userUtil.getUser();
 		try {
 			Patient patient = null;
 			if(user.getRole().equals(UserRoles.ADMIN.name())) {
@@ -98,9 +102,9 @@ public class PatientController {
 	
 	@PostMapping("update")
 	public String update(@ModelAttribute Patient patient,
-			RedirectAttributes attributes, HttpSession session) {
+			RedirectAttributes attributes) {
 		String message = "";
-		User user = (User) session.getAttribute("userOb");
+		User user = userUtil.getUser();
 		try {
 			service.updatePatient(patient);
 			message = "Patient "+patient.getId()+ " updated";
@@ -128,10 +132,10 @@ public class PatientController {
 	}
 	
 	@RequestMapping("showProfile")
-	public String viewProfile(@RequestParam(value = "message", required = false) String message,
-			HttpSession session, Model model) {
+	public String viewProfile(@RequestParam(value = "message", required = false) String message
+			, Model model) {
 		
-		User user = (User) session.getAttribute("userOb");
+		User user = userUtil.getUser();
 		
 		Patient patient = service.getOnePatientByEmail(user.getUsername());
 		model.addAttribute("pat", patient);

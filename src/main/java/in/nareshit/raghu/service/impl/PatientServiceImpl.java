@@ -33,9 +33,6 @@ public class PatientServiceImpl implements IPatientService {
 
 	@Autowired
 	private MyMailUtil mailUtil;
-	
-	@Autowired
-	private HttpSession session;
 
 	@Override
 	@Transactional
@@ -93,8 +90,8 @@ public class PatientServiceImpl implements IPatientService {
 
 	@Override
 	public Patient getOnePatientByEmail(String email) {
-		User user = (User) session.getAttribute("userOb");
-		if(email.equals(user.getUsername())) {
+		
+		if(email.equals(userUtil.getUser().getUsername())) {
 			return repo.findByEmail(email)
 					.orElseThrow(() -> new PatientNotFoundException("Email is invalid"));
 		}
@@ -107,7 +104,7 @@ public class PatientServiceImpl implements IPatientService {
 	@Transactional
 	public void updatePatient(Patient patient) {
 		String oldEmail = getOnePatient(patient.getId()).getEmail();
-		User user = (User) session.getAttribute("userOb");
+		User user = userUtil.getUser();
 		if (repo.existsById(patient.getId())) {
 			if (user.getRole().equals(UserRoles.ADMIN.name())) {
 				//Update By Admin

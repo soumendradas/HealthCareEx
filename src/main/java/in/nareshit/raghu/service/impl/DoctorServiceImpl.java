@@ -38,9 +38,6 @@ public class DoctorServiceImpl implements IDoctorService {
 	
 	@Autowired
 	private MyMailUtil mailUtil;
-	
-	@Autowired
-	private HttpSession session;
 
 	@Override
 	@Transactional
@@ -95,7 +92,7 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	@Override
 	public void updateDoctor(Doctor doc) {
-		User user = (User) session.getAttribute("userOb");
+		User user = userUtil.getUser();
 		String oldEmail = getOneDoctor(doc.getId()).getEmail();
 		
 		if(repo.existsById(doc.getId())) {
