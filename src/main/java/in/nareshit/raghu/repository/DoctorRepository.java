@@ -1,6 +1,7 @@
 package in.nareshit.raghu.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,6 +28,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	List<Object[]> getDoctorIdNamesAndSpec();
 	
 	List<Doctor> findBySpecialization(Specialization specialization);
+	
+	Optional<Doctor> findByEmail(String email);
 	
 //	@Query("SELECT doc FROM Doctor doc INNER JOIN doc.specialization as spec WHERE spec.id = :specId")
 //	List<Doctor> findBySpecId(Long specId);

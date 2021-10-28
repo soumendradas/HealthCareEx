@@ -38,6 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAuthority(UserRoles.ADMIN.name())
 			.mvcMatchers("/patient/**")
 				.hasAnyAuthority(UserRoles.PATIENT.name(), UserRoles.ADMIN.name())
+			
+			.mvcMatchers("/doctor/showProfile")
+				.hasAuthority(UserRoles.DOCTOR.name())
 			.mvcMatchers("/doctor/**")
 				.hasAuthority(UserRoles.ADMIN.name())
 			

@@ -3,6 +3,8 @@ package in.nareshit.raghu.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Doctor;
+import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
@@ -149,6 +152,16 @@ public class DoctorController {
 		mv.addObject("doctors", doctors);
 
 		return mv;
+	}
+	
+	@GetMapping("showProfile")
+	public String showProfilePage(HttpSession session, Model model) {
+		
+		User user = (User) session.getAttribute("userOb");
+		Doctor doc = service.findDoctorByEmail(user.getUsername());
+		model.addAttribute("doc", doc);
+		
+		return "DoctorProfile";
 	}
 
 }

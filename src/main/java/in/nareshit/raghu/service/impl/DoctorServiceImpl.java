@@ -152,5 +152,13 @@ public class DoctorServiceImpl implements IDoctorService {
 		return repo.findBySpecialization(specService.getOneSpecialization(SpecId));
 		
 	}
+	
+	
+	@Override
+	public Doctor findDoctorByEmail(String email) {
+		
+		return repo.findByEmail(email)
+				.orElseThrow(()->new DoctorNotFoundException(email+" Not Found"));
+	}
 
 }

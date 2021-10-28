@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>My Profile</title>
+    <div th:replace="fragments/commonui :: header"></div>
+</head>
+<body>
+    <div th:replace="fragments/commonui :: menu"></div>
+    <div class="container">
+        <div class="card p-2">
+            <div class="card-header bg-primary text-center text-white">
+                <h2>[[${doc.firstName}]]'s Profile</h2>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-5">
+                    <img th:src="${doc.photoLoc}" class="rounded-circle" style="width: 200px; height:200px">
+                </div>
+                <div class="row">
+                    
+                    <div class="col-3"><h3>Full name: </h3></div>
+                    <div class="col-9"><h3>[[${doc.firstName+' '+ doc.lastName}]]</h3></div>
+                </div>
+                <div class="row">
+                    <div class="col-3"><h3>Specialization:</h3></div>
+                    <div class="col-9"><h3>[[${doc.Specialization.specName}]]</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3"><h3>Email:</h3></div>
+                    <div class="col-9"><h3>[[${doc.email}]]</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3"><h3>Mobile:</h3></div>
+                    <div class="col-9"><h3>[[${doc.mobile}]]</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3"><h3>Gender:</h3></div>
+                    <div class="col-9"><h3>[[${doc.gender}]]</h3></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3"><h3>Address:</h3></div>
+                    <div class="col-9"><b>[[${doc.address}]]</b></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-3"><h3>Note:</h3></div>
+                    <div class="col-9"><b>[[${doc.note}]]</b></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

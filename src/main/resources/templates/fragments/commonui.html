@@ -155,9 +155,16 @@
               <a class="dropdown-item" th:href="@{/logout}">Logout</a>
               <a
                 class="dropdown-item"
-                th:href="@{/patient/edit(email=${#authentication.getPrincipal().getUsername()})}"
+                th:href="@{/patient/showProfile}"
                 sec:authorize="hasAuthority('PATIENT')"
-                >Edit Profile</a
+                >View Profile</a
+              >
+
+              <a
+                class="dropdown-item"
+                th:href="@{/doctor/showProfile}"
+                sec:authorize="hasAuthority('DOCTOR')"
+                >View Profile</a
               >
               <a class="dropdown-item" th:href="@{/user/changepassword}"
                 >Change Password</a

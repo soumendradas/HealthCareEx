@@ -22,6 +22,7 @@
                   <th>GENDER</th>
                   <th>DOB</th>
                   <th>MARTIAL_STATUS</th>
+                  <th>EMAIL</th>
                   <th>MOBILE</th>
                   <th>Medical History</th>
                   <th>OPERATIONS</th>
@@ -32,6 +33,7 @@
                   <td>[[${ob.gender}]]</td>
                   <td>[[${ob.dateOfBirth}]]</td>
                   <td>[[${ob.martialStatus}]]</td>
+                  <td>[[${ob.email}]]</td>
                   <td>[[${ob.mobile}]]</td>
                   <td><span th:each="hist:${ob.mediHistory}">
                       <span th:unless="${hist == 'other'}">[[${hist}]], </span>

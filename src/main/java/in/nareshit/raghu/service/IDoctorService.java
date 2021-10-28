@@ -18,4 +18,6 @@ public interface IDoctorService {
 	public Map<Long, String> getDoctorIdNamesAndSpec();
 	
 	public List<Doctor> findDoctorBySpecId(Long SpecId);
+	
+	public Doctor findDoctorByEmail(String email);
 }
