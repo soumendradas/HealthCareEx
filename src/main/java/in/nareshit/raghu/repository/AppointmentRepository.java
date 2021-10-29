@@ -16,4 +16,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 	
 	@Query("SELECT app.id, app.date, app.noOfSlots, app.fee FROM Appointment app INNER JOIN app.doctor as doc WHERE doc.id= :docId and app.date >= :date")
 	public List<Object[]> findByDoctorIdAndDate(Long docId, LocalDate date);
+	
+	@Query("SELECT app.date, app.noOfSlots, app.fee, app.details FROM Appointment app INNER JOIN app.doctor as doc WHERE doc.email = :email")
+	public List<Object[]> findByDoctorEmail(String email);
 }

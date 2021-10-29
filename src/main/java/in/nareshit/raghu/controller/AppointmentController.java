@@ -1,5 +1,6 @@
 package in.nareshit.raghu.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -160,6 +161,17 @@ public class AppointmentController {
 				doc.getFirstName()+" "+doc.getLastName());
 		
 		return "AppointmentSlots";
+	}
+	
+	@GetMapping("/currentDoc")
+	public String getCurrentDoctorAppointments(Model model, Principal principal) {
+		
+		List<Object[]> appointments = service
+				.getAppointmentByDoctorEmail(principal.getName());
+		
+		model.addAttribute("appointments", appointments);
+		
+		return "AppointmentForDoctor";
 	}
 
 }

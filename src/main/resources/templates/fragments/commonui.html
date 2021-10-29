@@ -132,6 +132,11 @@
                   >Add</a
                 >
               </div>
+              <div sec:authorize="hasAuthority('DOCTOR')">
+                <a class="dropdown-item" th:href="@{/appointment/currentDoc}">
+                  My Appointments
+                </a>
+              </div>
             </div>
           </li>
         </ul>

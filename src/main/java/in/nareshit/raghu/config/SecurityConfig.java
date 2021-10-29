@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
-			.mvcMatchers("/myjs/**").permitAll()		//for enable javascript file
+			.mvcMatchers("/myjs/**","myRes/**").permitAll()		//for enable javascript file
 			.mvcMatchers("/user/login").permitAll()
 			.mvcMatchers("/patient/register", "/patient/save").permitAll()
 			.mvcMatchers("/patient/all","/patient/delete")
@@ -46,11 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAuthority(UserRoles.ADMIN.name())
 			
 			.mvcMatchers("/spec/**").hasAuthority(UserRoles.ADMIN.name())
-			.mvcMatchers("appointment/register", "appointment/update", "appointment/delete")
-					.hasAuthority(UserRoles.ADMIN.name())
 			.mvcMatchers("appointment/view", "appointment/viewAll")
 					.hasAuthority(UserRoles.PATIENT.name())
-			.mvcMatchers("appointment/all").permitAll()		
+			.mvcMatchers("appointment/currentDoc")
+				.hasAuthority(UserRoles.DOCTOR.name())	
+			.mvcMatchers("appointment/**").hasAuthority(UserRoles.ADMIN.name())
 			.anyRequest().authenticated()
 			
 			.and()
