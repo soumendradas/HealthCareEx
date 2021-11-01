@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.hasAuthority(UserRoles.ADMIN.name())
 			
 			.mvcMatchers("/spec/**").hasAuthority(UserRoles.ADMIN.name())
-			.mvcMatchers("appointment/view", "appointment/viewAll")
+			.mvcMatchers("appointment/view", "appointment/viewSlot")
 					.hasAuthority(UserRoles.PATIENT.name())
 			.mvcMatchers("appointment/currentDoc")
 				.hasAuthority(UserRoles.DOCTOR.name())	
