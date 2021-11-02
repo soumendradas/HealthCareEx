@@ -2,6 +2,7 @@ package in.nareshit.raghu.controller;
 
 import java.security.Principal;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import in.nareshit.raghu.constants.SlotsStatus;
+import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.entity.SlotRequest;
@@ -64,6 +66,28 @@ public class SlotRequestController {
 		model.addAttribute("message", message);
 		return "SlotRequestMessage";
 		
+	}
+	
+	@GetMapping("all")
+	public String viewAllReq(Model model) {
+		
+		List<SlotRequest> list = service.getAllSlotrequest();
+		
+		model.addAttribute("list", list);
+		return "SlotRequestData";
+	}
+	
+	@GetMapping("/accept")
+	public String updateSlotAccept(@RequestParam Long id) {
+		service.updateSlotRequestStatus(id, SlotsStatus.ACCEPTED.name());
+		appService.updateAppointmentSlot(service.getAppointmentId(id),SlotsStatus.ACCEPTED.name());
+		return "redirect:all";
+	}
+	
+	@GetMapping("/reject")
+	public String updateSlotReject(@RequestParam Long id) {
+		service.updateSlotRequestStatus(id, SlotsStatus.REJECTED.name());
+		return "redirect:all";
 	}
 
 }

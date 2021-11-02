@@ -18,5 +18,7 @@ public interface IAppointmentService {
 	public List<Object[]> getAppointmentByDoctor(Long docId, LocalDate date);
 	
 	public List<Object[]> getAppointmentByDoctorEmail(String username);
+	
+	void updateAppointmentSlot(Long appointment_id, String status);
 
 }

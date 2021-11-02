@@ -139,6 +139,37 @@
               </div>
             </div>
           </li>
+
+          <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              SLOTS
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" th:href="@{/slots/all}" sec:authorize="hasAuthority('ADMIN')"
+                >View All</a
+              >
+              <a
+                class="dropdown-item"
+                sec:authorize="hasAuthority('PATIENT')"
+                th:href="@{/slots/patient}"
+                >My Slots</a
+              >
+              <a
+                class="dropdown-item"
+                sec:authorize="hasAuthority('DOCTOR')"
+                th:href="@{/slots/doctor}"
+                >My Slots</a
+              >
+            </div>
+          </li>
         </ul>
 
         <ul class="navbar nav ms-auto">

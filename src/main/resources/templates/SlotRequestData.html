@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>All Requests</title>
+    <div th:replace="fragments/commonui :: header"></div>
+  </head>
+  <body>
+    <div th:replace="fragments/commonui :: menu"></div>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+          <h3>All Slots Requests</h3>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-hover">
+            <tr>
+              <th>#</th>
+              <th>PATIENT NAME</th>
+              <th>DATE</th>
+              <th>DOCTOR NAME</th>
+              <th>STATUS</th>
+              <th>OPERATION</th>
+            </tr>
+
+            <tr th:each="ob,i:${list}">
+                <td>[[${i.count}]]</td>
+                <td>[[${ob.patient.firstName+' '+ ob.patient.lastName}]]</td>
+                <td>[[${ob.appointment.date}]]</td>
+                <td>Dr. [[${ob.appointment.doctor.firstName+' '+ ob.appointment.doctor.lastName}]]</td>
+                <td>[[${ob.status}]]</td>
+                <td>
+                <th:block th:if="${ob.status=='PENDING'}">
+                    <a class="btn btn-primary btn-sm" th:href="@{/slots/accept(id=${ob.id})}">ACCEPTED</a>
+                    | <a class="btn btn-danger btn-sm" th:href="@{/slots/reject(id=${ob.id})}">REJECTED</a>
+                    </th:block>
+                </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
