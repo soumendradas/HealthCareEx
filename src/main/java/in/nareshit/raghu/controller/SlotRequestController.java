@@ -113,5 +113,13 @@ public class SlotRequestController {
 		return "redirect:patient";
 	}
 	
+	@GetMapping("/doctor")
+	public String viewByDoctor(Principal principal, Model model) {
+		
+		List<SlotRequest> list =service.viewSlotsByDoctor(principal.getName());
+		model.addAttribute("list", list);
+		return "SlotRequestDataDoctor";
+	}
+	
 
 }

@@ -53,6 +53,12 @@ public class SlotRequestImpl implements ISlotRequestService {
 		
 		return repo.findById(id).get();
 	}
+	
+	@Override
+	public List<SlotRequest> viewSlotsByDoctor(String doctorUsername) {
+		
+		return repo.getAllDoctorSlots(doctorUsername);
+	}
 
 	
 }

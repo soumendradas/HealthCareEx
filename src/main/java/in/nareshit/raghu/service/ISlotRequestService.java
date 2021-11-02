@@ -19,4 +19,7 @@ public interface ISlotRequestService {
 	Long getAppointmentId(Long slotId);
 
 	SlotRequest getOneSlotRequest(Long id);
+	
+	// Doctor can see his slots
+	List<SlotRequest> viewSlotsByDoctor(String doctorUsername);
 }
