@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import in.nareshit.raghu.constants.SlotsStatus;
+import in.nareshit.raghu.constants.SlotStatus;
 import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.entity.SlotRequest;
@@ -44,7 +44,7 @@ public class SlotRequestController {
 		SlotRequest sr = new SlotRequest();
 		sr.setAppointment(appointment);
 		sr.setPatient(patient);
-		sr.setStatus(SlotsStatus.PENDING.name());
+		sr.setStatus(SlotStatus.PENDING.name());
 		
 		String message = "";
 		try {
@@ -78,14 +78,15 @@ public class SlotRequestController {
 	
 	@GetMapping("/accept")
 	public String updateSlotAccept(@RequestParam Long id) {
-		service.updateSlotRequestStatus(id, SlotsStatus.ACCEPTED.name());
-		appService.updateAppointmentSlot(service.getAppointmentId(id),SlotsStatus.ACCEPTED.name());
+		service.updateSlotRequestStatus(id, SlotStatus.APPROVED.name());
+		appService.updateAppointmentSlot(service.getOneSlotRequest(id)
+				.getAppointment().getId(),-1);
 		return "redirect:all";
 	}
 	
 	@GetMapping("/reject")
 	public String updateSlotReject(@RequestParam Long id) {
-		service.updateSlotRequestStatus(id, SlotsStatus.REJECTED.name());
+		service.updateSlotRequestStatus(id, SlotStatus.REJECTED.name());
 		return "redirect:all";
 	}
 	
@@ -103,11 +104,10 @@ public class SlotRequestController {
 	public String cancelRequest(@RequestParam Long id) {
 		
 		SlotRequest sl = service.getOneSlotRequest(id);
-		service.updateSlotRequestStatus(id, SlotsStatus.CANCELLED.name());
+		service.updateSlotRequestStatus(id, SlotStatus.CANCELLED.name());
 		
-		if(sl.getStatus().equals(SlotsStatus.ACCEPTED.name())) {
-			appService.updateAppointmentSlot(service.getAppointmentId(id), 
-					SlotsStatus.CANCELLED.name());	
+		if(sl.getStatus().equals(SlotStatus.APPROVED.name())) {
+			appService.updateAppointmentSlot(sl.getAppointment().getId(), 1);	
 		}
 		
 		return "redirect:patient";
@@ -116,7 +116,8 @@ public class SlotRequestController {
 	@GetMapping("/doctor")
 	public String viewByDoctor(Principal principal, Model model) {
 		
-		List<SlotRequest> list =service.viewSlotsByDoctor(principal.getName());
+		List<SlotRequest> list =service.viewSlotsByDoctor(principal.getName(),
+				SlotStatus.APPROVED.name());
 		model.addAttribute("list", list);
 		return "SlotRequestDataDoctor";
 	}

@@ -42,11 +42,6 @@ public class SlotRequestImpl implements ISlotRequestService {
 		return repo.getAllPatientSlots(patientUsername);
 	}
 	
-	@Override
-	public Long getAppointmentId(Long slotId) {
-		
-		return repo.getAppointmentId(slotId);
-	}
 	
 	@Override
 	public SlotRequest getOneSlotRequest(Long id) {
@@ -55,9 +50,9 @@ public class SlotRequestImpl implements ISlotRequestService {
 	}
 	
 	@Override
-	public List<SlotRequest> viewSlotsByDoctor(String doctorUsername) {
+	public List<SlotRequest> viewSlotsByDoctor(String doctorUsername, String status) {
 		
-		return repo.getAllDoctorSlots(doctorUsername);
+		return repo.getAllDoctorSlots(doctorUsername, status);
 	}
 
 	

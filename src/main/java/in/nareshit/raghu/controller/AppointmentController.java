@@ -53,10 +53,16 @@ public class AppointmentController {
 	@PostMapping("save")
 	public String save(@ModelAttribute Appointment appointment, 
 			RedirectAttributes attributes) {
+		String message = "";
+		try {
+			Long id = service.saveAppointment(appointment);
+			message = "Appointment '" + id + "' is created";
+		}catch (Exception e) {
+			e.printStackTrace();
+			message = "Appointment already created";
+		}
 
-		Long id = service.saveAppointment(appointment);
-
-		attributes.addAttribute("message", "Appointment '" + id + "' is created");
+		attributes.addAttribute("message", message);
 		return "redirect:register";
 	}
 

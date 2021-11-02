@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import in.nareshit.raghu.constants.SlotsStatus;
 import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.exception.AppointmentNotFoundException;
 import in.nareshit.raghu.repository.AppointmentRepository;
@@ -76,13 +75,9 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	
 	@Transactional
 	@Override
-	public void updateAppointmentSlot(Long appointment_id, String status) {
+	public void updateAppointmentSlot(Long appointment_id, int count) {
 		
-		if(status.equals(SlotsStatus.ACCEPTED.name())) {
-			repo.updateAppointmentSlotForAccept(appointment_id);
-		}else if(status.equals(SlotsStatus.CANCELLED.name())) {
-			repo.updateAppointmentSlotForCancelled(appointment_id);
-		}
+		repo.updateAppointmentSlot(appointment_id, count);
 	}
 
 }

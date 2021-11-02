@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -22,7 +23,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "appointment_tab")
+@Table(name = "appointment_tab",
+		uniqueConstraints = @UniqueConstraint(columnNames = {"doctor_fk_col","app_date_col"}))
 public class Appointment {
 	
 	@Id

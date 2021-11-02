@@ -22,10 +22,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 	public List<Object[]> findByDoctorEmail(String email);
 	
 	@Modifying
-	@Query("UPDATE Appointment SET noOfSlots = noOfSlots-1 WHERE id=:id")
-	public void updateAppointmentSlotForAccept(Long id);
+	@Query("UPDATE Appointment SET noOfSlots = noOfSlots + :count WHERE id=:id")
+	public void updateAppointmentSlot(Long id, int count);
 	
-	@Modifying
-	@Query("UPDATE Appointment SET noOfSlots = noOfSlots+1 WHERE id=:id")
-	public void updateAppointmentSlotForCancelled(Long id);
+	
 }
