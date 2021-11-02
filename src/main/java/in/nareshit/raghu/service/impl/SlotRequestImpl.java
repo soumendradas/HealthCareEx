@@ -47,6 +47,12 @@ public class SlotRequestImpl implements ISlotRequestService {
 		
 		return repo.getAppointmentId(slotId);
 	}
+	
+	@Override
+	public SlotRequest getOneSlotRequest(Long id) {
+		
+		return repo.findById(id).get();
+	}
 
 	
 }

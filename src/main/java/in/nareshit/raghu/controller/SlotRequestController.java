@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import in.nareshit.raghu.constants.SlotsStatus;
-import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.entity.SlotRequest;
@@ -89,5 +88,30 @@ public class SlotRequestController {
 		service.updateSlotRequestStatus(id, SlotsStatus.REJECTED.name());
 		return "redirect:all";
 	}
+	
+	@GetMapping("/patient")
+	public String viewByPatient(Principal principal,
+			Model model) {
+		
+		List<SlotRequest> list = service.viewSlotsByPatient(principal.getName());
+		model.addAttribute("list", list);
+		
+		return "SlotRequestDataPatient";
+	}
+	
+	@GetMapping("/cancel")
+	public String cancelRequest(@RequestParam Long id) {
+		
+		SlotRequest sl = service.getOneSlotRequest(id);
+		service.updateSlotRequestStatus(id, SlotsStatus.CANCELLED.name());
+		
+		if(sl.getStatus().equals(SlotsStatus.ACCEPTED.name())) {
+			appService.updateAppointmentSlot(service.getAppointmentId(id), 
+					SlotsStatus.CANCELLED.name());	
+		}
+		
+		return "redirect:patient";
+	}
+	
 
 }

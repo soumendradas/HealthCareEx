@@ -17,4 +17,6 @@ public interface ISlotRequestService {
 	List<SlotRequest> viewSlotsByPatient(String patientUsername);
 	
 	Long getAppointmentId(Long slotId);
+
+	SlotRequest getOneSlotRequest(Long id);
 }
