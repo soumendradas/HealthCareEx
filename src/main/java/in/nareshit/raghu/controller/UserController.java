@@ -58,5 +58,23 @@ public class UserController {
 		
 		return "redirect:changepassword";
 	}
+	
+	@GetMapping("forgotPass")
+	public String showForgotPassPage(
+			@RequestParam(value = "messsage", required = false) String message,
+			Model model) {
+		
+		model.addAttribute("message", message);
+		return "UserForgotPass";
+	}
+	
+	@PostMapping("genNewPass")
+	public String genNewPassword(@RequestParam String username,
+			RedirectAttributes attributes) {
+		String msg = service.forgotPassword(username);
+		
+		attributes.addAttribute("message", msg);
+		return "redirect:forgotPass";
+	}
 
 }

@@ -15,5 +15,7 @@ public interface IUserService {
 	
 	boolean isEmailExist(String email);
 	
+	String forgotPassword(String username);
+	
 
 }

@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.authorizeRequests()
 			.mvcMatchers("/myjs/**","myRes/**").permitAll()		//for enable javascript file
-			.mvcMatchers("/user/login").permitAll()
+			.mvcMatchers("/user/login", "/user/forgotPass","/user/genNewPass").permitAll()
 			.mvcMatchers("/patient/register", "/patient/save").permitAll()
 			.mvcMatchers("/patient/all","/patient/delete")
 				.hasAuthority(UserRoles.ADMIN.name())

@@ -68,12 +68,21 @@ public class AppointmentController {
 
 	@GetMapping("all")
 	public String showAll(Model model, 
-			@RequestParam(value = "message", required = false) String message) {
-
-		List<Appointment> appointments = service.getAllAppointment();
-		model.addAttribute("appointments", appointments);
-		model.addAttribute("message", message);
+			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "date", required = false) LocalDate date) {
+		
+		if(date == null) {
+			List<Appointment> appointments = service.getAllAppointment();
+			model.addAttribute("appointments", appointments);
+			model.addAttribute("message", message);
+			
+		}else {
+			
+		}
+		
 		return "AppointmentData";
+		
+		
 	}
 
 	@GetMapping("delete")
@@ -129,6 +138,7 @@ public class AppointmentController {
 		return "redirect:all";
 	}
 	
+	// show doctors to book slot
 	@GetMapping("/view")
 	public String viewSlots(@RequestParam(required = false, 
 			defaultValue = "0") Long specId, Model model) {
@@ -155,6 +165,7 @@ public class AppointmentController {
 		return "AppointmentSearch";
 	}
 	
+	//view slots to book
 	@GetMapping("viewSlot")
 	public String showSlots(@RequestParam Long id, Model model) {
 		
@@ -179,5 +190,5 @@ public class AppointmentController {
 		
 		return "AppointmentForDoctor";
 	}
-
+	
 }

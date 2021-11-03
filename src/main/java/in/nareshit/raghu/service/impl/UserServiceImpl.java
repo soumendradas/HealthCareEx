@@ -18,6 +18,7 @@ import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.repository.UserRepository;
 import in.nareshit.raghu.service.IUserService;
 import in.nareshit.raghu.util.MyMailUtil;
+import in.nareshit.raghu.util.UserUtil;
 
 @Service
 public class UserServiceImpl implements IUserService, UserDetailsService {
@@ -33,6 +34,9 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	
 	@Autowired
 	private HttpSession session;
+	
+	@Autowired
+	private UserUtil userUtil;
 
 	@Override
 	public Long saveUser(User user) {
@@ -119,6 +123,31 @@ public class UserServiceImpl implements IUserService, UserDetailsService {
 	public boolean isEmailExist(String email) {
 
 		return repo.getUsernameCount(email) > 0;
+	}
+	
+	@Override
+	@Transactional
+	public String forgotPassword(String username) {
+		Optional<User> opt = repo.findByUsername(username);
+		
+		if(opt.isPresent()) {
+			User user = opt.get();
+			String newPass = userUtil.getPwd();
+			String encPass = passwordEncoder.encode(newPass);
+			repo.updatePassword(user.getId(), encPass);
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					mailUtil.send(username, "Password Changed",
+							"Your New Password is: "+newPass);
+					
+				}
+			}).start();
+			return "Password Changed Successfully";
+		}
+		
+		return "Invalid Username";
 	}
 
 }
