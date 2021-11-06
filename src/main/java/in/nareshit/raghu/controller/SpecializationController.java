@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -76,8 +77,11 @@ public class SpecializationController {
 	@GetMapping("/all")
 	public String viewAllPageble(@PageableDefault(page = 0, size = 3) Pageable pageable,
 			Model model,
-			@RequestParam(value = "message", required = false) String message) {
+			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "sizeAtRuntime", required = false, defaultValue = "0") Integer sizeAtRuntime) {
 		
+		pageable = PageRequest.of(pageable.getPageNumber(), 
+				sizeAtRuntime !=0?sizeAtRuntime:pageable.getPageSize());
 		Page<Specialization> page = service.getAllSpecializtions(pageable);
 		model.addAttribute("allSpec", page.getContent());
 		model.addAttribute("page", page);

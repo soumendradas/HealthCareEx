@@ -12,9 +12,19 @@
         </div>
 
         <div class="card-body">
-          <a class="btn btn-info text-white mb-1" th:href="@{/spec/excel}"
-            >Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i
-          ></a>
+          <div class="row">
+            <div class="col-9">
+              <a class="btn btn-info text-white mb-1" th:href="@{/spec/excel}"
+                >Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i
+              ></a>
+            </div>
+            <div class="col-3">
+              <select class="form-control" id="pageSize">
+                <option value="0">Select</option>
+                <option th:each="i: ${#numbers.sequence(1, 7)}" th:value="${i}">[[${i}]]</option>
+              </select>
+            </div>
+          </div>
           <table class="table table-hover">
             <tr class="bg-secondary text-white">
               <th class="col-1">ID</th>
@@ -52,23 +62,39 @@
                 <a class="page-link" th:href="@{/spec/all(page=0)}">First</a>
               </li>
               <li class="page-item" th:if="${page.hasPrevious()}">
-                <a class="page-link" th:href="@{/spec/all(page=${page.number-1})}"
+                <a
+                  class="page-link"
+                  th:href="@{/spec/all(page=${page.number-1})}"
                   >Previous</a
                 >
               </li>
-              <th:block th:each = "i: ${#numbers.sequence(0,page.totalPages-1)}">
-                <li class="page-item">
-                  <a class="page-link" th:href="@{/spec/all(page=${i})}">[[${i+1}]]</a>
+              <th:block th:each="i: ${#numbers.sequence(0,page.totalPages-1)}">
+                <li class="page-item active" th:if="${page.number == i}">
+                  <a class="page-link" th:href="@{/spec/all(page=${i})}"
+                    >[[${i+1}]]</a
+                  >
+                </li>
+                <li class="page-item" th:unless="${page.number == i}">
+                  <a class="page-link" th:href="@{/spec/all(page=${i})}"
+                    >[[${i+1}]]</a
+                  >
                 </li>
               </th:block>
-              <li class="page-item" th:if= "${page.hasNext()}">
-                <a class="page-link" th:href="@{/spec/all(page=${page.number+1})}">Next</a></li>
-
+              <li class="page-item" th:if="${page.hasNext()}">
+                <a
+                  class="page-link"
+                  th:href="@{/spec/all(page=${page.number+1})}"
+                  >Next</a
+                >
+              </li>
 
               <li class="page-item" th:if="${!page.isLast()}">
-                <a class="page-link" th:href="@{/spec/all(page=${page.totalPages-1})}">Last</a>
+                <a
+                  class="page-link"
+                  th:href="@{/spec/all(page=${page.totalPages-1})}"
+                  >Last</a
+                >
               </li>
-              
             </ul>
           </nav>
         </div>
@@ -77,5 +103,18 @@
         </div>
       </div>
     </div>
+
+    <script>
+      $(document).ready(function(){
+        $("#pageSize").change(function(){
+          var size = this.value
+          console.log(size);
+          window.location.href="/spec/all?sizeAtRuntime="+size;
+        })
+        
+      })
+    </script>
   </body>
+
+  
 </html>
