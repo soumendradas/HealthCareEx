@@ -16,14 +16,18 @@
             <div class="col-9">
               <a class="btn btn-info text-white mb-1" th:href="@{/spec/excel}"
                 >Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i
-              ></a> |
-              <a class="btn btn-success text-white mb-1" th:href="@{/spec/pdf}">PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+              ></a>
+              |
+              <a class="btn btn-success text-white mb-1" th:href="@{/spec/pdf}"
+                >PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
               </a>
             </div>
             <div class="col-3">
               <select class="form-control" id="pageSize">
                 <option value="0">Select</option>
-                <option th:each="i: ${#numbers.sequence(1, 7)}" th:value="${i}">[[${i}]]</option>
+                <option th:each="i: ${#numbers.sequence(1, 7)}" th:value="${i}">
+                  [[${i}]]
+                </option>
               </select>
             </div>
           </div>
@@ -107,16 +111,13 @@
     </div>
 
     <script>
-      $(document).ready(function(){
-        $("#pageSize").change(function(){
-          var size = this.value
+      $(document).ready(function () {
+        $("#pageSize").change(function () {
+          var size = this.value;
           console.log(size);
-          window.location.href="/spec/all?sizeAtRuntime="+size;
-        })
-        
-      })
+          window.location.href = "/spec/all?sizeAtRuntime=" + size;
+        });
+      });
     </script>
   </body>
-
-  
 </html>

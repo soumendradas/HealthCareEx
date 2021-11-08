@@ -23,6 +23,7 @@ import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.util.MyMailUtil;
 import in.nareshit.raghu.view.DoctorExcelView;
+import in.nareshit.raghu.view.DoctorPdfView;
 
 @Controller
 @RequestMapping("doctor")
@@ -159,6 +160,18 @@ public class DoctorController {
 		model.addAttribute("doc", doc);
 		
 		return "DoctorProfile";
+	}
+	
+	@GetMapping("/pdf")
+	public ModelAndView exportToPdf() {
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setView(new DoctorPdfView());
+		
+		List<Doctor> doctors = service.getAllDoctors();
+		mv.addObject("doctors", doctors);
+		return mv;
 	}
 
 }

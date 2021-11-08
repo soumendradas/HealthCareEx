@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    
     <title>Doctor Data</title>
     <div th:replace="fragments/commonui :: header"></div>
   </head>
   <body>
-
     <div th:replace="fragments/commonui :: menu"></div>
     <div class="container">
       <div class="card">
@@ -17,6 +15,10 @@
         <div class="card-body">
           <a class="btn btn-primary text-white mb-1" th:href="@{/doctor/excel}"
             >Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i
+          ></a>
+          |
+          <a class="btn btn-info text-white mb-1" th:href="@{/doctor/pdf}">
+            PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i
           ></a>
           <div class="card mb-3" th:each="ob: ${list}">
             <div class="row">
