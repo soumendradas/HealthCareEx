@@ -21,5 +21,7 @@ public interface ISpecializationService {
 	public boolean isSpecNameExist(String specName, Long id);
 	
 	public Map<Long, String> getSpecIdAndName();
+	
+	Long getAllSpecializationCount();
 
 }

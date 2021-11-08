@@ -142,5 +142,11 @@ public class PatientServiceImpl implements IPatientService {
 		}
 
 	}
+	
+	@Override
+	public Long getAllPatientCount() {
+		
+		return repo.count();
+	}
 
 }

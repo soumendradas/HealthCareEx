@@ -15,5 +15,7 @@ public interface IPatientService {
 	
 	public boolean isEmailExist(Long id, String email);
 	
+	Long getAllPatientCount();
+	
 
 }

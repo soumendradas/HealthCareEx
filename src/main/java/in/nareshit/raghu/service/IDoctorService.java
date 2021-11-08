@@ -20,4 +20,6 @@ public interface IDoctorService {
 	public List<Doctor> findDoctorBySpecId(Long SpecId);
 	
 	public Doctor findDoctorByEmail(String email);
+	
+	Long getAllDoctorsCount();
 }

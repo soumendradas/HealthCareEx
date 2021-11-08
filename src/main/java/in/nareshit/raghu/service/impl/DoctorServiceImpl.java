@@ -160,5 +160,11 @@ public class DoctorServiceImpl implements IDoctorService {
 		return repo.findByEmail(email)
 				.orElseThrow(()->new DoctorNotFoundException(email+" Not Found"));
 	}
+	
+	@Override
+	public Long getAllDoctorsCount() {
+		
+		return repo.count();
+	}
 
 }

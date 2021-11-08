@@ -173,6 +173,10 @@
           <li class="nav-item">
             <a class="nav-link" th:href="@{/document/all}">Document</a>
           </li>
+
+          <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+            <a class="nav-link" th:href="@{/slots/dashboard}">Dashboard</a>
+          </li>
         </ul>
 
         <ul class="navbar nav ms-auto">

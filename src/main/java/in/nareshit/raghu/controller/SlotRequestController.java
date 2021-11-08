@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +18,11 @@ import in.nareshit.raghu.entity.Appointment;
 import in.nareshit.raghu.entity.Patient;
 import in.nareshit.raghu.entity.SlotRequest;
 import in.nareshit.raghu.service.IAppointmentService;
+import in.nareshit.raghu.service.IDoctorService;
 import in.nareshit.raghu.service.IPatientService;
 import in.nareshit.raghu.service.ISlotRequestService;
+import in.nareshit.raghu.service.ISpecializationService;
+import in.nareshit.raghu.util.AdminDashboardUtil;
 
 @Controller
 @RequestMapping("/slots")
@@ -31,6 +36,18 @@ public class SlotRequestController {
 	
 	@Autowired
 	private IPatientService patService;
+	
+	@Autowired
+	private IDoctorService doctService;
+	
+	@Autowired
+	private ISpecializationService specService;
+	
+	@Autowired
+	private AdminDashboardUtil adminUtil;
+	
+	@Autowired
+	private ServletContext context;
 	
 	@GetMapping("book")
 	public String bookSlot(@RequestParam Long id,
@@ -120,6 +137,22 @@ public class SlotRequestController {
 				SlotStatus.APPROVED.name());
 		model.addAttribute("list", list);
 		return "SlotRequestDataDoctor";
+	}
+	
+	@GetMapping("/dashboard")
+	public String viewDashboard(Model model) {
+		model.addAttribute("doctors", doctService.getAllDoctorsCount());
+		model.addAttribute("appointments", appService.getAllSpecializationCount());
+		model.addAttribute("patients", patService.getAllPatientCount());
+		model.addAttribute("specializations", specService.getAllSpecializationCount());
+		
+		String path = context.getRealPath("/");
+		List<Object[]> list = service.getSlotStausAndCount();
+		
+		adminUtil.generateBar(path, list);
+		adminUtil.generatePie(path, list);
+		
+		return "AdminDashboard";
 	}
 	
 

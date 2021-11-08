@@ -79,5 +79,11 @@ public class AppointmentServiceImpl implements IAppointmentService {
 		
 		repo.updateAppointmentSlot(appointment_id, count);
 	}
+	
+	@Override
+	public Long getAllSpecializationCount() {
+		
+		return repo.count();
+	}
 
 }

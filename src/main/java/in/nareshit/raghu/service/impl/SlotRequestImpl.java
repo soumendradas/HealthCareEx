@@ -54,6 +54,12 @@ public class SlotRequestImpl implements ISlotRequestService {
 		
 		return repo.getAllDoctorSlots(doctorUsername, status);
 	}
+	
+	@Override
+	public List<Object[]> getSlotStausAndCount() {
+		
+		return repo.getSlotStatusAndCount();
+	}
 
 	
 }
