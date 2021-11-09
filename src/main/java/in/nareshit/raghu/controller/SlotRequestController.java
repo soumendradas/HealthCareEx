@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import in.nareshit.raghu.constants.SlotStatus;
 import in.nareshit.raghu.entity.Appointment;
@@ -23,6 +24,7 @@ import in.nareshit.raghu.service.IPatientService;
 import in.nareshit.raghu.service.ISlotRequestService;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.util.AdminDashboardUtil;
+import in.nareshit.raghu.view.InvoicePdfView;
 
 @Controller
 @RequestMapping("/slots")
@@ -95,9 +97,16 @@ public class SlotRequestController {
 	
 	@GetMapping("/accept")
 	public String updateSlotAccept(@RequestParam Long id) {
-		service.updateSlotRequestStatus(id, SlotStatus.APPROVED.name());
-		appService.updateAppointmentSlot(service.getOneSlotRequest(id)
-				.getAppointment().getId(),-1);
+		
+		Appointment app = service.getOneSlotRequest(id).getAppointment();
+		
+		if(app.getNoOfSlots() > 0) {
+		
+			service.updateSlotRequestStatus(id, SlotStatus.APPROVED.name());
+			appService.updateAppointmentSlot(service.getOneSlotRequest(id)
+					.getAppointment().getId(),-1);
+			
+		}
 		return "redirect:all";
 	}
 	
@@ -153,6 +162,17 @@ public class SlotRequestController {
 		adminUtil.generatePie(path, list);
 		
 		return "AdminDashboard";
+	}
+	
+	@GetMapping("/invoice")
+	public ModelAndView showInvoice(@RequestParam Long id,
+			ModelAndView mv) {
+		mv.setView(new InvoicePdfView());
+		SlotRequest sr = service.getOneSlotRequest(id);
+		mv.addObject("slots", sr);
+		
+		return mv;
+		
 	}
 	
 

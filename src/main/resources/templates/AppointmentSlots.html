@@ -31,7 +31,8 @@
                         <td>[[${ob[3]}]]</td>
 
                         <td>
-                            <a class="btn btn-primary" th:href="@{/slots/book(id=${ob[0]})}">BOOK SLOT</a>
+                            <a class="btn btn-primary" th:href="@{/slots/book(id=${ob[0]})}"
+                             th:if="${ob[2]!=0}">BOOK SLOT</a>
                         </td>
 
                     </tr>

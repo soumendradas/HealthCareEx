@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 			.mvcMatchers("/myjs/**","myRes/**").permitAll()		//for enable javascript file
 			.mvcMatchers("/user/login", "/user/forgotPass","/user/genNewPass").permitAll()
-			.mvcMatchers("/patient/register", "/patient/save").permitAll()
+			.mvcMatchers("/patient/register", "/patient/save","patient/checkEmail").permitAll()
 			.mvcMatchers("/patient/all","/patient/delete")
 				.hasAuthority(UserRoles.ADMIN.name())
 			.mvcMatchers("/patient/**")
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.mvcMatchers("appointment/currentDoc")
 				.hasAuthority(UserRoles.DOCTOR.name())	
 			.mvcMatchers("appointment/**").hasAuthority(UserRoles.ADMIN.name())
-			.mvcMatchers("/slots/book","/slots/patient", "/slots/cancel")
+			.mvcMatchers("/slots/book","/slots/patient", "/slots/cancel", "/slots/invoice")
 				.hasAuthority(UserRoles.PATIENT.name())
 			.mvcMatchers("/slots/doctor").hasAuthority(UserRoles.DOCTOR.name())
 			.mvcMatchers("/slots/**").hasAuthority(UserRoles.ADMIN.name())
