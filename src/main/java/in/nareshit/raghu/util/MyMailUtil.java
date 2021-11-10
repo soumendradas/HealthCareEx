@@ -45,7 +45,7 @@ public class MyMailUtil {
 			helper.setText(text);
 			
 			if(files != null) {
-				for(var rob: files) {
+				for(Resource rob: files) {
 					helper.addAttachment(rob.getFilename(), rob);
 				}
 			}
