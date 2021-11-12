@@ -41,8 +41,12 @@ spring:
     port: 587
     username: fordev79@gmail.com
     password: Hell0!@#
+    protocol: smtp
+    debug: true
+    
     properties:      mail:
         smtp:
+          auth: true
           starttls:
             enable: true
 
