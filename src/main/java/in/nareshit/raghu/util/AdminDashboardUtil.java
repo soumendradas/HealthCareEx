@@ -15,7 +15,7 @@ public class AdminDashboardUtil {
 	
 	public void generatePie(String path, List<Object[]> list) {
 		//1. create dataset using list
-		var dataset = new DefaultPieDataset();
+		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(Object[] ob: list) {
 			//key-label, val-data/count
 			dataset.setValue(ob[0].toString(), Double.valueOf(ob[1].toString()));
