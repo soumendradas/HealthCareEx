@@ -13,8 +13,10 @@ import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.exception.DoctorNotFoundException;
 import in.nareshit.raghu.repository.DoctorRepository;
 import in.nareshit.raghu.service.IDoctorService;
+import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.service.IUserService;
 import in.nareshit.raghu.util.MyCollectionsUtil;
+import in.nareshit.raghu.util.MyMailUtil;
 import in.nareshit.raghu.util.UserUtil;
 
 @Service
@@ -27,7 +29,13 @@ public class DoctorServiceImpl implements IDoctorService {
 	private IUserService userService;
 	
 	@Autowired
+	private ISpecializationService specService;
+	
+	@Autowired
 	private UserUtil userUtil;
+	
+	@Autowired
+	private MyMailUtil mailUtil;
 
 	@Override
 	@Transactional
@@ -36,14 +44,27 @@ public class DoctorServiceImpl implements IDoctorService {
 		Long id = repo.save(doc).getId();
 		
 		if(id != null) {
+			String pwd = userUtil.getPwd();
 			User user = new User();
 			user.setDisplayName(doc.getFirstName()+" "+doc.getLastName());
 			user.setUsername(doc.getEmail());
-			user.setPassword(userUtil.getPwd());
+			user.setPassword(pwd);
 			user.setRole(UserRoles.DOCTOR.name());
-			userService.saveUser(user);
+			Long gen_id = userService.saveUser(user);
 			
-			// TODO : Email part is pending
+			if(gen_id != null) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						String msg = "Doctor id Created. username is "+doc.getEmail()+
+								" and password is "+ pwd;
+						mailUtil.send(doc.getEmail(), "Doctor account creation", msg);
+						
+					}
+				}).start();
+			}
+			
 		}
 		
 		return id;
@@ -69,9 +90,27 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	@Override
 	public void updateDoctor(Doctor doc) {
+		User user = userUtil.getUser();
+		String oldEmail = getOneDoctor(doc.getId()).getEmail();
 		
 		if(repo.existsById(doc.getId())) {
-			repo.save(doc);
+			if(user.getRole().equals(UserRoles.ADMIN.name())) {
+				if(!oldEmail.equals(doc.getEmail())) {
+					userService.updateUserEmail(oldEmail, doc.getEmail());
+					repo.save(doc);
+				}else {
+					repo.save(doc);
+				}
+			}else if(user.getUsername().equals(oldEmail)) {
+				if(!oldEmail.equals(doc.getEmail())) {
+					userService.updateUserEmail(oldEmail, doc.getEmail());
+					repo.save(doc);
+				}else {
+					repo.save(doc);
+				}
+			}
+			
+			
 		}else {
 			throw new DoctorNotFoundException(doc.getId() + " not found");
 		}
@@ -80,8 +119,11 @@ public class DoctorServiceImpl implements IDoctorService {
 	
 	@Override
 	public boolean isEmailExist(String email, Long id) {
+		if(userService.isEmailExist(email)) {
+			return true;
+		}
 		
-		if(id != 0) {
+		else if(id != 0) {
 			return repo.getEmailCountForEdit(email, id)>0;
 		}
 		
@@ -100,7 +142,29 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public Map<Long, String> getDoctorIdNamesAndSpec() {
 		List<Object[]> doctors = repo.getDoctorIdNamesAndSpec();		
-		return MyCollectionsUtil.convertToMapIndex(doctors);
+		return MyCollectionsUtil.convertToMapForDoctor(doctors);
+	}
+	
+	@Override
+	public List<Doctor> findDoctorBySpecId(Long SpecId) {
+		
+		
+		return repo.findBySpecialization(specService.getOneSpecialization(SpecId));
+		
+	}
+	
+	
+	@Override
+	public Doctor findDoctorByEmail(String email) {
+		
+		return repo.findByEmail(email)
+				.orElseThrow(()->new DoctorNotFoundException(email+" Not Found"));
+	}
+	
+	@Override
+	public Long getAllDoctorsCount() {
+		
+		return repo.count();
 	}
 
 }

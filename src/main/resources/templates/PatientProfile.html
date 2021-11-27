@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Profile</title>
+    <div th:replace="fragments/commonui :: header"></div>
+  </head>
+  <body>
+    <div th:replace="fragments/commonui :: menu"></div>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+          <h2>[[${pat.firstName}]]'s Profile</h2>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-hover">
+            <tr>
+              <th>FULL NAME</th>
+              <td>[[${pat.firstName+' '+ pat.lastName}]]</td>
+            </tr>
+
+            <tr>
+                <th>GENDER</th>
+                <td>[[${pat.gender}]]</td>
+            </tr>
+
+            <tr>
+                <th>DATE OF BIRTH</th>
+                <td>[[${pat.dateOfBirth}]]</td>
+            </tr>
+
+            <tr>
+                <th>MARTIAL STATUS</th>
+                <td>[[${pat.martialStatus}]]</td>
+            </tr>
+
+            <tr>
+                <th>MEDICAL HISTORY</th>
+                <td>[[${pat.mediHistory+','+pat.ifOther}]]</td>
+            </tr>
+
+            <tr>
+                <th>MOBILE</th>
+                <td>[[${pat.mobile}]]</td>
+            </tr>
+
+            <tr>
+                <th>EMAIL</th>
+                <td>[[${pat.email}]]</td>
+            </tr>
+
+            <tr>
+                <th>PRESENT ADDRESS</th>
+                <td>[[${pat.presentAddress}]]</td>
+            </tr>
+                
+            <tr>
+                <th>COMMUNICATION ADDRESS</th>
+                <td>[[${pat.communicationAddress}]]</td>
+            </tr>
+            <tr>
+                <th>NOTES</th>
+                <td>[[${pat.note}]]</td>
+            </tr>
+          </table>
+
+          <a class="btn btn-primary mt-2" th:href="@{/patient/edit}"
+            >Edit Profile</a
+          >
+        </div>
+
+        <div class="card-footer bg-success text-white">
+          <span th:text="${message}"></span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

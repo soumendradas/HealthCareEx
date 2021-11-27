@@ -1,11 +1,13 @@
 package in.nareshit.raghu.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import in.nareshit.raghu.entity.Doctor;
+import in.nareshit.raghu.entity.Specialization;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
@@ -24,5 +26,12 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
 	@Query("SELECT id, firstName, lastName, specialization FROM Doctor")
 	List<Object[]> getDoctorIdNamesAndSpec();
+	
+	List<Doctor> findBySpecialization(Specialization specialization);
+	
+	Optional<Doctor> findByEmail(String email);
+	
+//	@Query("SELECT doc FROM Doctor doc INNER JOIN doc.specialization as spec WHERE spec.id = :specId")
+//	List<Doctor> findBySpecId(Long specId);
 
 }

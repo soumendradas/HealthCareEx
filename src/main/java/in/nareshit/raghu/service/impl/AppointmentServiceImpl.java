@@ -3,6 +3,8 @@ package in.nareshit.raghu.service.impl;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +59,31 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	public List<Appointment> getAppointmentByDate(LocalDate date){
 		
 		return repo.findByDate(date);
+	}
+	
+	@Override
+	public List<Object[]> getAppointmentByDoctor(Long docId, LocalDate date) {
+		
+		return repo.findByDoctorIdAndDate(docId);
+	}
+	
+	@Override
+	public List<Object[]> getAppointmentByDoctorEmail(String username) {
+		
+		return repo.findByDoctorEmail(username);
+	}
+	
+	@Transactional
+	@Override
+	public void updateAppointmentSlot(Long appointment_id, int count) {
+		
+		repo.updateAppointmentSlot(appointment_id, count);
+	}
+	
+	@Override
+	public Long getAllSpecializationCount() {
+		
+		return repo.count();
 	}
 
 }

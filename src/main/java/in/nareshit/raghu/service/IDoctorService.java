@@ -16,4 +16,10 @@ public interface IDoctorService {
 	public boolean isMobileExist(String mobile, Long id);
 	
 	public Map<Long, String> getDoctorIdNamesAndSpec();
+	
+	public List<Doctor> findDoctorBySpecId(Long SpecId);
+	
+	public Doctor findDoctorByEmail(String email);
+	
+	Long getAllDoctorsCount();
 }

@@ -1,5 +1,7 @@
 package in.nareshit.raghu.controller;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import in.nareshit.raghu.entity.Appointment;
+import in.nareshit.raghu.entity.Doctor;
 import in.nareshit.raghu.service.IAppointmentService;
 import in.nareshit.raghu.service.IDoctorService;
+import in.nareshit.raghu.service.ISpecializationService;
 
 @Controller
 @RequestMapping("/appointment")
@@ -26,6 +30,9 @@ public class AppointmentController {
 
 	@Autowired
 	private IDoctorService docService;
+	
+	@Autowired
+	private ISpecializationService specService;
 	
 	private void getAllDoctorNamesAndId(Model model) {
 		Map<Long, String> docs = docService.getDoctorIdNamesAndSpec();
@@ -46,21 +53,36 @@ public class AppointmentController {
 	@PostMapping("save")
 	public String save(@ModelAttribute Appointment appointment, 
 			RedirectAttributes attributes) {
+		String message = "";
+		try {
+			Long id = service.saveAppointment(appointment);
+			message = "Appointment '" + id + "' is created";
+		}catch (Exception e) {
+			e.printStackTrace();
+			message = "Appointment already created";
+		}
 
-		Long id = service.saveAppointment(appointment);
-
-		attributes.addAttribute("message", "Appointment '" + id + "' is created");
+		attributes.addAttribute("message", message);
 		return "redirect:register";
 	}
 
 	@GetMapping("all")
 	public String showAll(Model model, 
-			@RequestParam(value = "message", required = false) String message) {
-
-		List<Appointment> appointments = service.getAllAppointment();
-		model.addAttribute("appointments", appointments);
-		model.addAttribute("message", message);
+			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "date", required = false) LocalDate date) {
+		
+		if(date == null) {
+			List<Appointment> appointments = service.getAllAppointment();
+			model.addAttribute("appointments", appointments);
+			model.addAttribute("message", message);
+			
+		}else {
+			
+		}
+		
 		return "AppointmentData";
+		
+		
 	}
 
 	@GetMapping("delete")
@@ -115,5 +137,58 @@ public class AppointmentController {
 		
 		return "redirect:all";
 	}
-
+	
+	// show doctors to book slot
+	@GetMapping("/view")
+	public String viewSlots(@RequestParam(required = false, 
+			defaultValue = "0") Long specId, Model model) {
+		
+		Map<Long, String> specializations = specService.getSpecIdAndName(); 
+		
+		List<Doctor> docList = null;
+		
+		String message = null;
+		
+		if(specId == 0) {
+			docList = docService.getAllDoctors();
+			message = "Result : All Doctors"; 
+		}else {
+			docList = docService.findDoctorBySpecId(specId);
+			message = "Result : "
+					+specService.getOneSpecialization(specId).getSpecName()+" Doctors";
+		}
+		
+		model.addAttribute("specializations", specializations);
+		model.addAttribute("docList",docList);
+		model.addAttribute("message", message);
+		
+		return "AppointmentSearch";
+	}
+	
+	//view slots to book
+	@GetMapping("viewSlot")
+	public String showSlots(@RequestParam Long id, Model model) {
+		
+		LocalDate date = LocalDate.now();
+		List<Object[]> appointments = service.getAppointmentByDoctor(id, date);
+		Doctor doc = docService.getOneDoctor(id);
+		
+		model.addAttribute("list", appointments);
+		model.addAttribute("message","Result for: "+
+				doc.getFirstName()+" "+doc.getLastName());
+		
+		return "AppointmentSlots";
+	}
+	
+	@GetMapping("/currentDoc")
+	public String getCurrentDoctorAppointments(Model model, Principal principal) {
+		
+		List<Object[]> appointments = service
+				.getAppointmentByDoctorEmail(principal.getName());
+		
+		model.addAttribute("appointments", appointments);
+		
+		return "AppointmentForDoctor";
+	}
+	
 }

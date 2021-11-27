@@ -1,5 +1,6 @@
 package in.nareshit.raghu.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import in.nareshit.raghu.constants.UserRoles;
 import in.nareshit.raghu.entity.Patient;
+import in.nareshit.raghu.entity.User;
 import in.nareshit.raghu.service.IPatientService;
+import in.nareshit.raghu.util.UserUtil;
 
 @Controller
 @RequestMapping("patient")
@@ -22,6 +26,9 @@ public class PatientController {
 	
 	@Autowired
 	private IPatientService service;
+	
+	@Autowired
+	private UserUtil userUtil;
 	
 	@GetMapping("/register")
 	public String showRegisterPage(
@@ -70,12 +77,18 @@ public class PatientController {
 	}
 	
 	@GetMapping("/edit")
-	public String showEditPage(@RequestParam Long id,
+	public String showEditPage(@RequestParam(value = "id", required = false) Long id,
 			RedirectAttributes attributes,
 			Model model) {
 		String page = "";
+		User user = userUtil.getUser();
 		try {
-			Patient patient = service.getOnePatient(id);
+			Patient patient = null;
+			if(user.getRole().equals(UserRoles.ADMIN.name())) {
+				patient = service.getOnePatient(id);
+			}else {
+				patient = service.getOnePatientByEmail(user.getUsername());
+			}
 			model.addAttribute("patient", patient);
 			page = "PatientEdit";
 		}catch (Exception e) {
@@ -89,8 +102,8 @@ public class PatientController {
 	@PostMapping("update")
 	public String update(@ModelAttribute Patient patient,
 			RedirectAttributes attributes) {
-		
 		String message = "";
+		User user = userUtil.getUser();
 		try {
 			service.updatePatient(patient);
 			message = "Patient "+patient.getId()+ " updated";
@@ -98,7 +111,11 @@ public class PatientController {
 			message = e.getMessage();
 		}
 		attributes.addAttribute("message", message);
-		return "redirect:all";
+		
+		if(user.getRole().equals(UserRoles.ADMIN.name())) {
+			return "redirect:all";
+		}
+		return "redirect:showProfile";
 	}
 	
 	@GetMapping("checkEmail")
@@ -111,6 +128,17 @@ public class PatientController {
 		}
 		
 		return message;
+	}
+	
+	@RequestMapping("showProfile")
+	public String viewProfile(@RequestParam(value = "message", required = false) String message
+			, Model model, Principal p) {
+		
+		Patient patient = service.getOnePatientByEmail(p.getName());
+		model.addAttribute("pat", patient);
+		model.addAttribute("message", message);
+		
+		return "PatientProfile";
 	}
 
 }

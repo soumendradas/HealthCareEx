@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="fragments/commonui:: header"></div>
+    <title>Slots Message</title>
+</head>
+<body>
+    <div th:replace="fragments/commonui:: menu"></div>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>SLOT STATUS MESSAGE</h3>
+            </div>
+            <div class="card-body text-success">
+               <span> [[${message}]]</span>
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+</html>

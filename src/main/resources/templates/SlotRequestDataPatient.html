@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Slots</title>
+    <div th:replace="fragments/commonui :: header"></div>
+  </head>
+  <body>
+    <div th:replace="fragments/commonui :: menu"></div>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header bg-primary text-white text-center">
+          <h3>SLOT REQUEST BY PATIENT : [[${session.userOb.displayName}]]</h3>
+        </div>
+
+        <div class="card-body">
+          <table class="table table-hover">
+            <tr class="bg-secondary text-white">
+              <th>#</th>
+              <th>DOCTOR NAME</th>
+              <th>DATE</th>
+              <th>STATUS</th>
+              <th>OPERATIONS</th>
+            </tr>
+
+            <tr th:each="ob,i:${list}">
+              <td>[[${i.count}]]</td>
+              <td>
+                [[${ob.appointment.doctor.firstName+' '+
+                ob.appointment.doctor.lastName}]]
+              </td>
+              <td>[[${ob.appointment.date}]]</td>
+              <td>[[${ob.status}]]</td>
+              <td>
+                <a
+                  th:if="${ob.status=='APPROVED'}"
+                  th:href="@{/slots/invoice(id=${ob.id})}"
+                  class="btn btn-primary btn-sm"
+                  >INVOICE </a>
+                
+                <th:block
+                  th:if="${ob.status == 'APPROVED' || ob.status == 'PENDING'}"
+                >
+                  <a
+                    class="btn btn-danger btn-sm"
+                    th:href="@{/slots/cancel(id=${ob.id})}"
+                    >CANCEL <i class="fa fa-ban" aria-hidden="true"></i>
+                    </a
+                  >
+                </th:block>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

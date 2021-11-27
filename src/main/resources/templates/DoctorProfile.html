@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>My Profile</title>
+    <div th:replace="fragments/commonui :: header"></div>
+</head>
+<body>
+    <div th:replace="fragments/commonui :: menu"></div>
+    <div class="container">
+        <div class="card p-2">
+            <div class="card-header bg-primary text-center text-white">
+                <h2>[[${doc.firstName}]]'s Profile</h2>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-5">
+                    <img th:src="${doc.photoLoc}" class="rounded-circle" style="width: 200px; height:200px">
+                </div>
+
+                <table class="table table-hover">
+                    <tr>
+                        <th>FULL NAME</th>
+                        <td>[[${doc.firstName+' '+ doc.lastName}]]</td>
+                    </tr>
+
+                    <tr>
+                        <th>SPECIALIZATION</th>
+                        <td>[[${doc.Specialization.specName}]]</td>
+                    </tr>
+
+                    <tr>
+                        <th>EMAIL</th>
+                        <td>[[${doc.email}]]</td>
+                    </tr>
+                    <tr>
+                        <th>MOBILE</th>
+                        <td>[[${doc.mobile}]]</td>
+                    </tr>
+
+                    <tr>
+                        <th>GENDER</th>
+                        <td>[[${doc.gender}]]</td>
+                    </tr>
+
+                    <tr>
+                        <th>ADDRESS</th>
+                        <td>[[${doc.address}]]</td>
+                    </tr>
+
+                    <tr>
+                        <th>NOTES</th>
+                        <td>[[${doc.note}]]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

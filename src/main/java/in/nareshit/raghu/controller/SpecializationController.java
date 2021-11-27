@@ -3,6 +3,10 @@ package in.nareshit.raghu.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import in.nareshit.raghu.entity.Specialization;
 import in.nareshit.raghu.exception.SpecializationNotFoundException;
 import in.nareshit.raghu.service.ISpecializationService;
 import in.nareshit.raghu.view.SpecializationExcelView;
+import in.nareshit.raghu.view.SpecializationPdfView;
 
 @Controller
 @RequestMapping("/spec")
@@ -59,12 +64,31 @@ public class SpecializationController {
 	 * @return
 	 */
 
+//	@GetMapping("/all")
+//	public String viewAll(Model model, @RequestParam(value = "message", required = false) String message) {
+//		List<Specialization> allSpec = service.getAllSpecializations();
+//		model.addAttribute("allSpec", allSpec);
+//		model.addAttribute("message", message);
+//		return "SpecializationData.html";
+//	}
+	
+	/*
+	 * pageable view
+	 */
 	@GetMapping("/all")
-	public String viewAll(Model model, @RequestParam(value = "message", required = false) String message) {
-		List<Specialization> allSpec = service.getAllSpecializations();
-		model.addAttribute("allSpec", allSpec);
-		model.addAttribute("message", message);
-		return "SpecializationData.html";
+	public String viewAllPageble(@PageableDefault(page = 0, size = 3) Pageable pageable,
+			Model model,
+			@RequestParam(value = "message", required = false) String message,
+			@RequestParam(value = "sizeAtRuntime", required = false, defaultValue = "0") Integer sizeAtRuntime) {
+		
+		pageable = PageRequest.of(pageable.getPageNumber(), 
+				sizeAtRuntime !=0?sizeAtRuntime:pageable.getPageSize());
+		Page<Specialization> page = service.getAllSpecializtions(pageable);
+		model.addAttribute("allSpec", page.getContent());
+		model.addAttribute("page", page);
+		model.addAttribute("message",message);
+		
+		return "SpecializationData";
 	}
 	
 	/**
@@ -183,6 +207,17 @@ public class SpecializationController {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.setView(new SpecializationExcelView());
+		List<Specialization> list = service.getAllSpecializations();
+		mv.addObject("list", list);
+		
+		return mv;
+	}
+	
+	@GetMapping("/pdf")
+	public ModelAndView exportToPdf() {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setView(new SpecializationPdfView());
 		List<Specialization> list = service.getAllSpecializations();
 		mv.addObject("list", list);
 		

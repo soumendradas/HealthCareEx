@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Documents</title>
+    <div th:replace="fragments/commonui :: header"></div>
+    <style>
+      .row{
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="fragments/commonui:: menu"></div>
+
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <h3>Documents Page</h3>
+        </div>
+
+        <div class="card-body">
+          <form th:action="@{/document/upload}" enctype="multipart/form-data" method="POST" id="docForm">
+            <div class="row">
+              <div class="col-3">
+                <label for="docId">ID</label>
+              </div>
+              <div class="col-4">
+                <input
+                  class="form-control"
+                  name="docId"
+                  id="docId"
+                  th:value="${idVal}"
+                  type="number"
+                  readonly
+                />
+              </div>
+
+              <div class="col-5">
+                <span id="docIdError"></span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-3">
+                <label for="docOb">Document</label>
+              </div>
+
+              <div class="col-4">
+                <input type="file" name="docOb" id="docOb" />
+              </div>
+              <div class="col-5">
+                <span id="docObError"></span>
+              </div>
+            </div>
+
+            <button class="btn btn-success mb-2" type="submit">UPLOAD <i class="fa fa-cloud-upload" aria-hidden="true"></i></button>
+          </form>
+
+          <table class="table table-hover">
+              <tr class="bg-secondary text-white">
+                  <th>FILE NAME</th>
+                  <th>OPERATION</th>
+              </tr>
+
+              <tr th:each="ob:${list}">
+                  <td>[[${ob[1]}]]</td>
+                  <td>
+                    <a class="btn btn-danger" th:href="@{/document/delete(id=${ob[0]})}">Delete <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-success" th:href="@{/document/download(id=${ob[0]})}">Download <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                    </a>
+                  </td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/myjs/document_validate.js}"></script>
+  </body>
+</html>
+
